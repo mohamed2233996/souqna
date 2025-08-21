@@ -1,5 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "./_componant/Navbar";
+import '../i18n';
+import Providers from "./providers";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,10 +23,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Head>
+        {/* Preload logos */}
+        <link rel="preload" as="image" href="/logos/logo-en-white.png" />
+        <link rel="preload" as="image" href="/logos/logo-en-dark.png" />
+        <link rel="preload" as="image" href="/logos/logo-ar-white.png" />
+        <link rel="preload" as="image" href="/logos/logo-ar-dark.png" />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   );
