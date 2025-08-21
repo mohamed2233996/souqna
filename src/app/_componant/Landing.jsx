@@ -36,8 +36,14 @@ const Landing = () => {
 
 
     return (
-        <div className='section mt-32'>
+        <div className='section mt-32 bg-[radial-gradient(150%_150%_at_50%_50%,rgba(255,155,33,1)_0%,rgba(255,255,255,1)_15%)] h-100vh
+        dark:bg-[radial-gradient(150%_150%_at_50%_50%,rgba(255,155,33,1)_0%,rgba(0,0,0,1)_15%)]'>
             <div className="container mx-auto px-4 flex flex-col justify-center">
+                <div className="mb-8 bg-gray-100 dark:bg-black border border-primary p-1 rounded-full shadow-2xl shadow-primary/50 w-fit mx-auto">
+                    <p className="text-center text-sm md:text-lg text-primary">
+                        {t('landing_subtitle') || "Your gateway to amazing content"}
+                    </p>
+                </div>
                 {i18n.language === 'ar' ? (
                     <>
                         <h1 className="text-5xl md:text-7xl font-bold text-center mb-4 las" style={{ color: textColor }}>
