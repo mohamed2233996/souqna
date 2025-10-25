@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import TextPressure from './ReactBits/TextPressure';
 import { useTranslation } from 'react-i18next';
-import MainBtn from './buttons/mainBtn';
+import MainBtn from './Buttons/mainBtn';
 
 
 const Landing = () => {
