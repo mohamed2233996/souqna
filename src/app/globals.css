@@ -5,11 +5,13 @@
 
 :root {
   --primary: #fc8c06;
+  --primary-dark: #d16900;
   --dark: #000000;
 }
 
 @theme inline {
   --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
   --color-dark: var(--dark);
 
 }

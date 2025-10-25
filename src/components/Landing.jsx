@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import TextPressure from './ReactBits/TextPressure';
 import { useTranslation } from 'react-i18next';
+import MainBtn from './buttons/mainBtn';
 
 
 const Landing = () => {
@@ -40,21 +41,22 @@ const Landing = () => {
         dark:bg-[radial-gradient(150%_150%_at_50%_50%,rgba(255,155,33,1)_0%,rgba(0,0,0,1)_15%)]'>
             <div className="container mx-auto px-4 flex flex-col justify-center">
                 <div className="mb-8 bg-gray-100 dark:bg-black border border-primary p-1 rounded-full shadow-2xl shadow-primary/50 w-fit mx-auto">
-                    <p className="text-center text-sm md:text-lg text-primary">
+                    <p className="text-center text-sm md:text-lg text-primary px-4">
                         {t('landing_subtitle') || "Your gateway to amazing content"}
                     </p>
                 </div>
-                {i18n.language === 'ar' ? (
-                    <>
-                        <h1 className="text-5xl md:text-7xl font-bold text-center mb-4 las" style={{ color: textColor }}>
-                            {t('welcome_to') || "مرحبًا بكم في موقعنا!"}
-                        </h1>
-                        <h1 className="text-5xl md:text-7xl font-bold text-center" style={{ color: textColor }}>
-                            {t('our_site') || "مرحبًا بكم في موقعنا!"}
-                        </h1>
-                    </>)
-                    : (
-                        <div style={{ position: 'relative', height: '200px' }}>
+                {i18n.language === 'ar' ?
+                    (
+                        <div className="h-[200px] flex flex-col item-center justify-between">
+                            <h1 className="text-5xl md:text-7xl font-bold text-center mb-4 las" style={{ color: textColor }}>
+                                {t('welcome_to') || "مرحبًا بكم في موقعنا!"}
+                            </h1>
+                            <h1 className="text-5xl md:text-7xl font-bold text-center" style={{ color: textColor }}>
+                                {t('our_site') || "مرحبًا بكم في موقعنا!"}
+                            </h1>
+                        </div>
+                    ) : (
+                        <div style={{ position: 'relative', height: '150px', maxHeight: '200px' }}>
                             <TextPressure
                                 text={t('welcome_to') || "Welcome to our site!"}
                                 flex={true}
@@ -81,6 +83,15 @@ const Landing = () => {
                             />
                         </div>
                     )}
+                <p className="text-center text-lg mt-20 mb-8 md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+                    {t('landing_description') || "Discover a world of content tailored just for you. Explore articles, tutorials, and more."}
+                </p>
+                <MainBtn
+                    children={`${t('get_started') || "Get Started"} ${"🛒"}`}
+                    onClick={() => {
+                        window.location.href = '#shop';
+                    }}
+                />
             </div>
         </div>
     );

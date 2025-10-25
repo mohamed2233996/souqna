@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import DarkSWitcher from './DarkSWitcher';
 import LanguageSwitcher from './LanguageSwitcher';
-import { useLogo } from '../_hooks/logoLoad';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLogo } from '@/hooks/logoLoad';
 
 
 const Navbar = () => {
