@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import NavBtn from './Buttons/navBtn';
 
 const LanguageSwitcher = () => {
     const { i18n } = useTranslation();
@@ -23,12 +24,10 @@ const LanguageSwitcher = () => {
     };
 
     return (
-        <button
+        <NavBtn
             onClick={toggleLanguage}
-            className="text-white bg-primary font-bold border border-primary py-2 rounded-xl px-3 hover:bg-transparent hover:text-primary transition-colors duration-300"
-        >
-            {i18n.language === "en" ? "Ar" : "EN"}
-        </button>
+            children={i18n.language === "en" ? "Ar" : "EN"}
+        />
     );
 }
 

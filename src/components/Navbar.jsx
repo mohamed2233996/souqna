@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import DarkSWitcher from './DarkSWitcher';
@@ -9,6 +9,9 @@ import LanguageSwitcher from './LanguageSwitcher';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLogo } from '@/hooks/logoLoad';
+import SidebarCart from './SidebarCart';
+import { supabase } from '../../lib/supabaseClient';
+import UserDropdown from './UserDropdown';
 
 
 const Navbar = () => {
@@ -16,6 +19,21 @@ const Navbar = () => {
     const { t, i18n } = useTranslation();
     const logoSrc = useLogo();
     const [menuOpen, setMenuOpen] = useState(false);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        // نحصل على المستخدم الحالي أول مرة
+        supabase.auth.getUser().then(({ data }) => setUser(data.user));
+
+        // نستمع لأي تغيير في حالة تسجيل الدخول
+        const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user || null);
+        });
+
+        return () => {
+            listener.subscription.unsubscribe();
+        };
+    }, []);
 
     return (
         <nav className="bg-white/90 border-b border-gray-200 dark:bg-black/90 dark:border-gray-800 fixed top-0 z-[1000] w-full shadow-md backdrop-blur-md">
@@ -39,7 +57,7 @@ const Navbar = () => {
                     <Link href="/about" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('about')}</Link>
                 </div>
 
-                <div className="relative w-64 hidden sm:block">
+                <div className="relative w-64 hidden md:block">
 
                     <input
                         type="text"
@@ -55,6 +73,17 @@ const Navbar = () => {
                 <div className="hidden sm:flex items-center gap-4">
                     <DarkSWitcher />
                     <LanguageSwitcher />
+                    {user ? (
+                        <UserDropdown user={user} />
+                    ) : (
+                        <button
+                            onClick={() => router.push('/auth/login')}
+                            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
+                        >
+                            {t('login')}
+                        </button>
+                    )}
+                    <SidebarCart id="drawer-cart-1" />
                 </div>
 
                 {/*  زر الهامبورجر (موبايل) */}
@@ -93,6 +122,17 @@ const Navbar = () => {
                                 <div className="flex gap-4 mt-2">
                                     <DarkSWitcher />
                                     <LanguageSwitcher />
+                                    {user ? (
+                                        <UserDropdown user={user} />
+                                    ) : (
+                                        <button
+                                            onClick={() => router.push('/auth/login')}
+                                            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
+                                        >
+                                            {t('login')}
+                                        </button>
+                                    )}
+                                    <SidebarCart id="drawer-cart-1" />
                                 </div>
                             </div>
                         )}

@@ -4,11 +4,18 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import ProductBox from './productBox';
 import { useTranslation } from 'react-i18next';
+import { addToCart } from '@/hooks/addToCart';
+import Toast from './Toast';
 
 const Shop = () => {
     const { t } = useTranslation();
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
+    const [toast, setToast] = useState(null);
+
+    const handleAddToCart = async (product) => {
+        await addToCart(product ,setToast , t);
+    };
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -47,9 +54,17 @@ const Shop = () => {
                                 rate: product.rating__rate,
                                 count: product.rating__count,
                             }}
+                            onAddToCart={() => handleAddToCart(product)}
                         />
                     ))}
                 </div>
+                {toast && (
+                    <Toast
+                        message={toast.message}
+                        onClose={() => setToast(null)}
+                        position="bottom-right"
+                    />
+                )}
             </div>
         </div>
     );

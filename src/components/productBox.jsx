@@ -5,18 +5,23 @@ import { useTranslation } from 'react-i18next';
 
 const ProductBox = (props) => {
     const { t } = useTranslation();
+
     return (
-        <div className="flex flex-col border rounded-lg p-4 shadow hover:shadow-lg transition">
-            <div className='h-52 w-full flex items-center justify-center'>
+        <div className="flex flex-col border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-white dark:bg-gray-900 shadow-md hover:shadow-lg transition-all duration-300">
+            <div
+                className="relative w-full h-[-webkit-fill-available] flex items-center justify-center overflow-hidden rounded-lg bg-gray-50 dark:bg-gray-800">
                 <img
                     src={props.image}
                     alt={props.title}
-                    className="w-4/5 p-8 hover:p-5 transition-all duration-500 object-cover mb-4 rounded"
+                    className="max-h-52 w-auto object-contain transition-transform duration-500 hover:scale-105"
                 />
             </div>
-            <h2 className="text-lg dark:text-white font-bold mb-2 line-clamp-2">{props.title}</h2>
+            <h2 className="text-lg text-gray-900 dark:text-white font-bold mt-3 mb-2 line-clamp-2">
+                {props.title}
+            </h2>
             <div className="flex flex-row justify-between items-center mb-4">
-                <p className="text-gray-700 dark:text-gray-300 font-bold">${props.price}</p>
+                <p className="text-gray-800 dark:text-gray-200 font-bold">${props.price}</p>
+
                 {props.rating__rate && (
                     <div className="flex items-center gap-1 text-yellow-500">
                         <Star size={14} fill="currentColor" />
@@ -26,12 +31,13 @@ const ProductBox = (props) => {
                     </div>
                 )}
             </div>
-            <button className="bg-primary mt-auto flex items-center justify-center font-bold w-full text-white px-4 py-2 rounded hover:bg-primary-dark transition">
+            <button onClick={() => props.onAddToCart?.()}
+            className="bg-primary mt-auto flex items-center justify-center font-bold w-full text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors duration-300">
                 {t("add to cart")}
-                <ShoppingCart className="inline-block mx-2" />
+                <ShoppingCart className="inline-block mx-2" size={16} />
             </button>
         </div>
     );
-}
+};
 
 export default ProductBox;

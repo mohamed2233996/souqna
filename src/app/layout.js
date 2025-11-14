@@ -4,6 +4,7 @@ import '../i18n';
 import Providers from "./providers";
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
+import SidebarCart from "@/components/SidebarCart";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +32,10 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="image" href="/logos/logo-ar-dark.png" />
       </Head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased transition duration-300`}
       >
         <Providers>
+          {/* <SidebarCart /> */}
           <Navbar />
           {children}
         </Providers>
