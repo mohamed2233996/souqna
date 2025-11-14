@@ -38,7 +38,7 @@ const Shop = () => {
     if (error) return <div className="text-red-500">Error loading products</div>;
 
     return (
-        <div id="shop" className="py-10">
+        <div id="shop" className="py-10 bg-gray-100 dark:bg-dark">
             <div className="container m-auto px-4">
                 <h1 className="text-3xl font-bold mb-6 dark:text-white">{t("our products")}</h1>
 

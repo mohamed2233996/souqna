@@ -37,7 +37,7 @@ const Landing = () => {
 
 
     return (
-        <div className='section mt-32 bg-[radial-gradient(150%_150%_at_50%_50%,rgba(255,155,33,1)_0%,rgba(255,255,255,1)_15%)] h-100vh
+        <div className='pb-16 pt-8 sm:pt-20 lg:pt-32 bg-[radial-gradient(150%_150%_at_50%_50%,rgba(255,155,33,1)_0%,rgba(255,255,255,1)_15%)] h-100vh
         dark:bg-[radial-gradient(150%_150%_at_50%_50%,rgba(255,155,33,1)_0%,rgba(0,0,0,1)_15%)]'>
             <div className="container mx-auto px-4 flex flex-col justify-center">
                 <div className="mb-8 bg-gray-100 dark:bg-black border border-primary p-1 rounded-full shadow-2xl shadow-primary/50 w-fit mx-auto">
@@ -88,7 +88,7 @@ const Landing = () => {
                         </div>
                         </>
                     )}
-                <p className="text-center text-lg mt-20 mb-8 md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+                <p className="text-center text-lg mt-8 md:mt-10 lg:mt-20 mb-8 md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
                     {t('landing_description') || "Discover a world of content tailored just for you. Explore articles, tutorials, and more."}
                 </p>
                 <MainBtn
