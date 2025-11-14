@@ -3,6 +3,8 @@ import { supabase } from "../../lib/supabaseClient";
 import Swal from "sweetalert2";
 
 export async function addToCart(product, setToast, t) {
+    window.dispatchEvent(new Event("cartUpdated"));
+
     try {
         // ✅ جلب المستخدم الحالي
         const { data: { user } } = await supabase.auth.getUser();

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 const Toast = ({ message, duration = 3000, onClose, type }) => {
     const [exiting, setExiting] = useState(false);
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -19,7 +19,7 @@ const Toast = ({ message, duration = 3000, onClose, type }) => {
     return (
         <div
             className={`
-        fixed bottom-4 right-10 flex flex-col items-center justify-center gap-2 bg-white dark:bg-dark text-primary px-4 py-4 w-50 shadow-xl border border-primary shadow-primary z-50
+        fixed bottom-4 right-10 flex flex-col items-center justify-center gap-2 bg-white dark:bg-dark text-primary px-4 py-4 w-50 shadow-xl border border-primary shadow-primary z-[1999]
         ${exiting ? 'animate-slide-out-right' : 'animate-slide-in-bottom'}
         `}
         >

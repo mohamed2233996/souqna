@@ -30,15 +30,26 @@ const SidebarCart = ({ id = "drawer-cart" }) => {
     fetchCart();
   }, []);
 
-  const handleRemove = async (cartItemId) => {
-    await removeFromCart(cartItemId, setToast, t);
+useEffect(() => {
+  const refresh = () => {
     fetchCart();
   };
 
+  window.addEventListener("cartUpdated", refresh);
 
-  if (loading) return <div>Loading...</div>;
+  return () => window.removeEventListener("cartUpdated", refresh);
+}, []);
+
+
+  const handleRemove = async (cartItemId) => {
+    await removeFromCart(cartItemId, setToast, t);
+
+    setCartItems((prev) => prev.filter((item) => item.id !== cartItemId));
+  };
+
 
   return (
+    <>
     <div className="drawer drawer-end z-50">
       {/* Drawer toggle */}
       <input id={id} type="checkbox" className="drawer-toggle" />
@@ -64,19 +75,13 @@ const SidebarCart = ({ id = "drawer-cart" }) => {
             {cartItems.map((item) => (
               <CardItem
                 key={item.id}
-                product={item}
-                onRemove={handleRemove}
+                product={item.products}
+                quantity={item.quantity}
+                onRemove={() => handleRemove(item.id)}
               />
             ))}
           </ul>
         </div>
-        {toast && (
-          <Toast
-            message={toast.message}
-            onClose={() => setToast(null)}
-            position="bottom-right"
-          />
-        )}
       </div>
 
       {/* CSS مخصص: يتحكم في الإخفاء/الظهور لكل breakpoint */}
@@ -137,6 +142,7 @@ const SidebarCart = ({ id = "drawer-cart" }) => {
         }
       `}</style>
     </div>
+  </>
   );
 };
 

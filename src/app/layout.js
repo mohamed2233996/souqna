@@ -4,6 +4,8 @@ import '../i18n';
 import Providers from "./providers";
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
+import ToastContainer from "@/components/ToastContainer";
+
 import SidebarCart from "@/components/SidebarCart";
 
 const geistSans = Geist({
