@@ -62,7 +62,7 @@ const SidebarCart = ({ id }) => {
         <label htmlFor={inputId} className="drawer-overlay"></label>
 
         {/* صندوق السلة */}
-        <div className="drawer-content-box bg-white dark:bg-gray-900 dark:text-white shadow-lg">
+        <div className="drawer-content-box bg-white dark:bg-gray-900 dark:text-white shadow-lg h-full w-100">
           <h2 className="font-bold text-xl mt-2 mb-4">{t("card")}</h2>
           {loading && <p className="font-bold animate-bounce">{t("loading")}...</p>}
           {!loading && cartItems.length === 0 && (
