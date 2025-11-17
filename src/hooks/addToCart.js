@@ -2,22 +2,19 @@
 import { supabase } from "../../lib/supabaseClient";
 import Swal from "sweetalert2";
 
-export async function addToCart(product, setToast, t) {
-    window.dispatchEvent(new Event("cartUpdated"));
-
+export async function addToCart(product, showToast, t) {
     try {
         // ✅ جلب المستخدم الحالي
         const { data: { user } } = await supabase.auth.getUser();
 
         if (!user) {
-            // ❌ المستخدم غير مسجل → SweetAlert
             await Swal.fire({
                 icon: "warning",
                 title: "You must login first!",
                 text: "Please login to add products to your cart.",
                 confirmButtonText: "Login"
             }).then(() => {
-                window.location.href = "/auth/login"; // توجيه لتسجيل الدخول
+                window.location.href = "/auth/login";
             });
             return { data: null, error: new Error("User not logged in") };
         }
@@ -45,10 +42,13 @@ export async function addToCart(product, setToast, t) {
 
             if (error) throw error;
 
-            setToast({
-                message: t("Product_quantity_updated"),
-                type: "added",
-            });
+                showToast({
+                    message: t("Product_quantity_updated"),
+                    type: "added",
+                });
+
+            // 🔥 حدث التحديث بعد التعديل
+            window.dispatchEvent(new Event("cartUpdated"));
 
             return { data, error: null };
         } else {
@@ -60,10 +60,15 @@ export async function addToCart(product, setToast, t) {
 
             if (error) throw error;
 
-            setToast({
-                message: t("Product_added"),
-                type: "added",
-            });
+            if (showToast) {
+                showToast({
+                    message: t("Product_added"),
+                    type: "added",
+                });
+            }
+
+            // 🔥 حدث التحديث هنا
+            window.dispatchEvent(new Event("cartUpdated"));
 
             return { data, error: null };
         }

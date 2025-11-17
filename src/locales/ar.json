@@ -27,5 +27,6 @@
   "Product_quantity_updated": "تم تحديث الكمية",
   "Product_added": "تمت إضافة المنتج",
   "go_to_chekout": "انتقل للدفع لإتمام عملية الشراء",
-  "Product_removed": "تم حذف المنتج"
+  "Product_removed": "تم حذف المنتج",
+  "cart_is_empty": "عربتك فارغة"
 }

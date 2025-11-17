@@ -37,7 +37,7 @@ const Navbar = () => {
 
     return (
         <nav className="bg-white/90 border-b border-gray-200 dark:bg-black/90 dark:border-gray-800 fixed top-0 z-[1000] w-full shadow-md backdrop-blur-md">
-            <div className={`max-w-screen-xl text-center px-4 py-3 flex items-center justify-between`}>
+            <div className={`text-center px-4 py-3 flex items-center justify-between`}>
 
                 {/*  اللوجو */}
                 <Link href="/" className="flex items-center">

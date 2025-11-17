@@ -4,7 +4,6 @@ import '../i18n';
 import Providers from "./providers";
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
-import ToastContainer from "@/components/ToastContainer";
 
 import SidebarCart from "@/components/SidebarCart";
 
@@ -36,11 +35,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased transition duration-300`}
       >
-        <Providers>
-          {/* <SidebarCart /> */}
-          <Navbar />
-          {children}
-        </Providers>
+          <Providers>
+            {/* <SidebarCart /> */}
+            <Navbar />
+            {children}
+          </Providers>
       </body>
     </html>
   );

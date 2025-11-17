@@ -27,5 +27,6 @@
   "Product_quantity_updated": "Quantity has been updated",
   "Product_added": "Product added",
   "go_to_chekout": "Proceed to payment to complete the transaction",
-  "Product_removed": "The product has been deleted"
+  "Product_removed": "The product has been deleted",
+  "cart_is_empty": "Your cart is empty"
 }

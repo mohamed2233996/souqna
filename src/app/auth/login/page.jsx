@@ -48,7 +48,7 @@ export default function Login() {
             </Link>
             <form
                 onSubmit={handleLogin}
-                className="bg-white dark:bg-gray-800 dark:text-white p-6 rounded-2xl shadow-lg w-2/3 md:w-1/3"
+                className="bg-white dark:bg-gray-800 dark:text-white text-black p-6 rounded-2xl shadow-lg w-full md:w-2/3 lg:w-1/3"
             >
                 <h2 className="text-2xl font-bold mb-4 text-center">{t("login")}</h2>
                 {error && <p className="text-red-500 mb-3">{error}</p>}

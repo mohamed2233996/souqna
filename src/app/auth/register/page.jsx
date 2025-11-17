@@ -77,7 +77,7 @@ export default function Register() {
 
             <form
                 onSubmit={handleRegister}
-                className="bg-white dark:bg-gray-800 dark:text-white p-6 rounded-2xl shadow-lg w-2/3 md:w-1/3"
+                className="bg-white text-black dark:bg-gray-800 dark:text-white p-6 rounded-2xl shadow-lg w-full md:w-2/3 lg:w-1/3"
             >
                 <h2 className="text-2xl font-bold mb-4 text-center">{t("register")}</h2>
 

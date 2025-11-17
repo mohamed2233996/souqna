@@ -5,20 +5,23 @@ import { supabase } from '../../lib/supabaseClient';
 import ProductBox from './productBox';
 import { useTranslation } from 'react-i18next';
 import { addToCart } from '@/hooks/addToCart';
-import Toast from './Toast';
+import { useToast } from '@/context/ToastContext';
 
 const Shop = () => {
     const { t } = useTranslation();
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
-    const [toast, setToast] = useState(null);
+    const { showToast } = useToast();
+    const[loading , setLoading] = useState(false);
+
 
     const handleAddToCart = async (product) => {
-        await addToCart(product ,setToast , t);
+        await addToCart(product ,showToast , t);
     };
 
     useEffect(() => {
         const fetchProducts = async () => {
+            setLoading(true);
             const { data, error } = await supabase
                 .from("products")
                 .select("*")
@@ -30,6 +33,7 @@ const Shop = () => {
             } else {
                 setProducts(data);
             }
+            setLoading(false);
         };
 
         fetchProducts();
@@ -43,6 +47,7 @@ const Shop = () => {
                 <h1 className="text-3xl font-bold mb-6 dark:text-white">{t("our products")}</h1>
 
                 {/* Products grid */}
+                {loading && <p className="font-bold text-center animate-bounce">{t("loading")}...</p>}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {products.map((product) => (
                         <ProductBox
@@ -58,13 +63,6 @@ const Shop = () => {
                         />
                     ))}
                 </div>
-                {toast && (
-                    <Toast
-                        message={toast.message}
-                        onClose={() => setToast(null)}
-                        position="bottom-right"
-                    />
-                )}
             </div>
         </div>
     );
