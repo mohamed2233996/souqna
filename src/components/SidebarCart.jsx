@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import CardItem from "./CardItem";
 import { removeFromCart } from "@/hooks/removeFromCart";
 import { useToast } from "@/context/ToastContext";
+import Loading from "./Loading";
 
 const SidebarCart = ({ id }) => {
 
@@ -62,9 +63,9 @@ const SidebarCart = ({ id }) => {
         <label htmlFor={inputId} className="drawer-overlay"></label>
 
         {/* صندوق السلة */}
-        <div className="drawer-content-box bg-white dark:bg-gray-900 dark:text-white shadow-lg h-full w-100">
+        <div className="drawer-content-box bg-white dark:bg-gray-900 dark:text-white shadow-lg h-auto rounded-b-xl pb-4 w-100">
           <h2 className="font-bold text-xl mt-2 mb-4">{t("card")}</h2>
-          {loading && <p className="font-bold animate-bounce">{t("loading")}...</p>}
+          {loading && <Loading />}
           {!loading && cartItems.length === 0 && (
             <p className="font-bold text-center">{t("cart_is_empty")}</p>
           )}
@@ -78,6 +79,23 @@ const SidebarCart = ({ id }) => {
               />
             ))}
           </ul>
+          {!loading && cartItems.length > 0 && (
+            <>
+            <h2 className="font-bold text-lg mt-4">
+              {t("total")}: $
+              {cartItems
+                .reduce(
+                  (total, item) =>
+                    total + item.products.price * item.quantity,
+                  0
+                )
+                .toFixed(2)}
+            </h2>
+            <button className="w-11/12 mt-4 mx-2 bg-primary text-white font-bold py-2 rounded-xl hover:bg-transparent hover:text-primary border border-primary transition-colors duration-300">
+              {t("checkout")}
+            </button>
+            </>
+          )}
         </div>
       </div>
 

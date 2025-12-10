@@ -28,5 +28,7 @@
   "Product_added": "Product added",
   "go_to_chekout": "Proceed to payment to complete the transaction",
   "Product_removed": "The product has been deleted",
-  "cart_is_empty": "Your cart is empty"
+  "cart_is_empty": "Your cart is empty",
+  "total": "Total",
+  "checkout": "Go pay"
 }

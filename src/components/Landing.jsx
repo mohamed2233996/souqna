@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import TextPressure from './ReactBits/TextPressure';
 import { useTranslation } from 'react-i18next';
 import MainBtn from './Buttons/mainBtn';
+import bgImage from '../imges/iconsbg.png';
 
 
 const Landing = () => {
@@ -37,8 +38,7 @@ const Landing = () => {
 
 
     return (
-        <div className='pb-16 pt-8 sm:pt-20 lg:pt-32 bg-[radial-gradient(150%_150%_at_50%_50%,rgba(255,155,33,1)_0%,rgba(255,255,255,1)_15%)] h-100vh
-        dark:bg-[radial-gradient(150%_150%_at_50%_50%,rgba(255,155,33,1)_0%,rgba(0,0,0,1)_15%)]'>
+        <div className='pb-16 pt-8 sm:pt-20 lg:pt-32 bg-no-repeat bg-cover bg-center' style={{ backgroundImage: `url(${bgImage.src})` }}>
             <div className="container mx-auto px-4 flex flex-col justify-center">
                 <div className="mb-8 bg-gray-100 dark:bg-black border border-primary p-1 rounded-full shadow-2xl shadow-primary/50 w-fit mx-auto">
                     <p className="text-center text-sm md:text-lg text-primary px-4">

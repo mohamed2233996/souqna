@@ -6,6 +6,7 @@ import ProductBox from './productBox';
 import { useTranslation } from 'react-i18next';
 import { addToCart } from '@/hooks/addToCart';
 import { useToast } from '@/context/ToastContext';
+import Loading from './Loading';
 
 const Shop = () => {
     const { t } = useTranslation();
@@ -42,12 +43,12 @@ const Shop = () => {
     if (error) return <div className="text-red-500">Error loading products</div>;
 
     return (
-        <div id="shop" className="py-10 bg-gray-100 dark:bg-dark">
+        <div id="shop" className="py-16 bg-[#f7f7f7] dark:bg-dark">
             <div className="container m-auto px-4">
-                <h1 className="text-3xl font-bold mb-6 dark:text-white">{t("our products")}</h1>
+                <h1 className="text-4xl font-bold text-center mb-8 dark:text-white">{t("our products")}</h1>
 
                 {/* Products grid */}
-                {loading && <p className="font-bold text-center animate-bounce">{t("loading")}...</p>}
+                {loading && <Loading />}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {products.map((product) => (
                         <ProductBox

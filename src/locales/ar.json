@@ -28,5 +28,7 @@
   "Product_added": "تمت إضافة المنتج",
   "go_to_chekout": "انتقل للدفع لإتمام عملية الشراء",
   "Product_removed": "تم حذف المنتج",
-  "cart_is_empty": "عربتك فارغة"
+  "cart_is_empty": "عربتك فارغة",
+  "total": "الاجمالي",
+  "checkout": "اذهب للدفع"
 }
