@@ -1,6 +1,7 @@
 import Landing from '@/components/Landing';
 import { supabase } from '../../lib/supabaseClient'
 import Shop from '@/components/Shop';
+import Footer from '@/components/Footer';
 
 export default async function Home() {
 
@@ -19,6 +20,7 @@ export default async function Home() {
     <div className="pt-20">
       <Landing  />
       <Shop />
+      <Footer />
     </div>
   )
 }

@@ -7,9 +7,9 @@ const ProductBox = (props) => {
     const { t } = useTranslation();
 
     return (
-        <div className="flex flex-col border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-white dark:bg-gray-900 shadow-md hover:shadow-lg transition-all duration-300">
+        <div className="flex flex-col border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-transparent shadow-md hover:shadow-lg transition-all duration-300">
             <div
-                className="relative w-full h-[-webkit-fill-available] flex items-center justify-center overflow-hidden rounded-lg bg-gray-50 dark:bg-gray-800">
+                className="relative w-full h-[-webkit-fill-available] flex items-center justify-center overflow-hidden rounded-lg">
                 <img
                     src={props.image}
                     alt={props.title}
@@ -20,7 +20,7 @@ const ProductBox = (props) => {
                 {props.title}
             </h2>
             <div className="flex flex-row justify-between items-center mb-4">
-                <p className="text-gray-800 dark:text-gray-200 font-bold">${props.price}</p>
+                <p className="text-primary font-bold">${props.price}</p>
 
                 {props.rating__rate && (
                     <div className="flex items-center gap-1 text-yellow-500">
@@ -32,7 +32,7 @@ const ProductBox = (props) => {
                 )}
             </div>
             <button onClick={() => props.onAddToCart?.()}
-            className="bg-primary mt-auto flex items-center justify-center font-bold w-full text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors duration-300">
+            className="bg-primary mt-auto flex items-center justify-center font-bold w-full text-white px-4 py-2 rounded-3xl hover:bg-primary-dark transition-colors duration-300">
                 {t("add to cart")}
                 <ShoppingCart className="inline-block mx-2" size={16} />
             </button>

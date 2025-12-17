@@ -43,7 +43,7 @@ const Shop = () => {
     if (error) return <div className="text-red-500">Error loading products</div>;
 
     return (
-        <div id="shop" className="py-16 bg-[#f7f7f7] dark:bg-dark">
+        <div id="shop" className="py-16 dark:bg-dark border-t border-gray-200 dark:border-gray-700">
             <div className="container m-auto px-4">
                 <h1 className="text-4xl font-bold text-center mb-8 dark:text-white">{t("our products")}</h1>
 

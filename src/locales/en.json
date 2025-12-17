@@ -30,5 +30,9 @@
   "Product_removed": "The product has been deleted",
   "cart_is_empty": "Your cart is empty",
   "total": "Total",
-  "checkout": "Go pay"
+  "checkout": "Go pay",
+  "souqnaFooter": ".Souqna .Ltd",
+  "footerText": "Marketing agency selling products since 2018",
+  "Social": "Social",
+  "AllRightFooter": "Souqna. All rights reserved."
 }

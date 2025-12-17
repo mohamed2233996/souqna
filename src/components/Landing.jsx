@@ -93,6 +93,7 @@ const Landing = () => {
                 </p>
                 <MainBtn
                     children={`${t('get_started') || "Get Started"} ${"🛒"}`}
+                    className="font-black text-xl"
                     onClick={() => {
                         window.location.href = '#shop';
                     }}
