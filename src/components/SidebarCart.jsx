@@ -59,7 +59,7 @@ const SidebarCart = ({ id }) => {
       </div>
 
       {/* drawer-side + overlay */}
-      <div className="drawer-side">
+      <div className="drawer-side" style={{ scrollbarWidth: 'none' }}>
         <label htmlFor={inputId} className="drawer-overlay"></label>
 
         {/* صندوق السلة */}

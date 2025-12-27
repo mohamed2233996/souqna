@@ -7,17 +7,18 @@ import { useTranslation } from 'react-i18next';
 import { addToCart } from '@/hooks/addToCart';
 import { useToast } from '@/context/ToastContext';
 import Loading from './Loading';
+import ProductSkeleton from './ProductSkeleton';
 
 const Shop = () => {
     const { t } = useTranslation();
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
     const { showToast } = useToast();
-    const[loading , setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     const handleAddToCart = async (product) => {
-        await addToCart(product ,showToast , t);
+        await addToCart(product, showToast, t);
     };
 
     useEffect(() => {
@@ -48,21 +49,24 @@ const Shop = () => {
                 <h1 className="text-4xl font-bold text-center mb-8 dark:text-white">{t("our products")}</h1>
 
                 {/* Products grid */}
-                {loading && <Loading />}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {products.map((product) => (
-                        <ProductBox
-                            key={product.id}
-                            title={product.title}
-                            price={product.price}
-                            image={product.image}
-                            rating={{
-                                rate: product.rating__rate,
-                                count: product.rating__count,
-                            }}
-                            onAddToCart={() => handleAddToCart(product)}
-                        />
-                    ))}
+                    {loading ? Array.from({ length: 8 }).map((_, i) => (
+                        <ProductSkeleton key={i} />
+                    )) :
+                        products.map((product) => (
+                            <ProductBox
+                                key={product.id}
+                                title={product.title}
+                                price={product.price}
+                                image={product.image}
+                                rating={{
+                                    rate: product.rating__rate,
+                                    count: product.rating__count,
+                                }}
+                                onAddToCart={() => handleAddToCart(product)}
+                            />
+                        ))
+                    }
                 </div>
             </div>
         </div>

@@ -15,11 +15,13 @@
     "gsap": "^3.13.0",
     "i18next": "^25.3.4",
     "lucide-react": "^0.540.0",
+    "motion": "^12.23.26",
     "next": "^16.0.8",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-i18next": "^15.6.1",
-    "sweetalert2": "^11.6.13"
+    "sweetalert2": "^11.6.13",
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.0",
