@@ -1,107 +1,176 @@
-"use client";
+'use client'
 
-import { getCartItems } from "@/hooks/getCartItems";
-import { ShoppingBasket } from "lucide-react";
-import React, { useEffect, useId, useState } from "react";
-import { useTranslation } from "react-i18next";
-import CardItem from "./CardItem";
-import { removeFromCart } from "@/hooks/removeFromCart";
-import { useToast } from "@/context/ToastContext";
-import Loading from "./Loading";
+import { useEffect, useState } from 'react'
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
+import { X } from 'lucide-react'
+import { ShoppingBasket } from 'lucide-react'
+import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 
-const SidebarCart = ({ id }) => {
+import { getCartItems } from '@/hooks/getCartItems'
+import { removeFromCart } from '@/hooks/removeFromCart'
+import { useToast } from '@/context/ToastContext'
 
-  const generatedId = useId();
-  const inputId = id || `drawer-cart-${generatedId}`;
+import CardItem from './CardItem'
+import Loading from './Loading'
+import { updateCartQuantity } from '@/hooks/updateCartQuantity'
+import SkeletonItem from './SkeletonItem'
 
+const SidebarCart = () => {
+  const { t } = useTranslation()
+  const { showToast } = useToast()
 
-  const { t } = useTranslation();
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { showToast } = useToast();
+  const [open, setOpen] = useState(false)
+  const [cartItems, setCartItems] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const fetchCart = async () => {
-    setLoading(true);
-    const { data, error } = await getCartItems();
-    if (error) console.error("❌ Error fetching cart:", error);
-    else setCartItems(data);
-    setLoading(false);
-  };
+    setLoading(true)
+    const { data, error } = await getCartItems()
+    if (error) console.error('❌ Error fetching cart:', error)
+    else setCartItems(data || [])
+    setLoading(false)
+  }
 
   useEffect(() => {
-    fetchCart();
-  }, []);
+    fetchCart()
+  }, [])
 
   useEffect(() => {
-    const refresh = () => fetchCart();
-    window.addEventListener("cartUpdated", refresh);
-    return () => window.removeEventListener("cartUpdated", refresh);
-  }, []);
+    const refresh = () => fetchCart()
+    window.addEventListener('cartUpdated', refresh)
+    return () => window.removeEventListener('cartUpdated', refresh)
+  }, [])
 
   const handleRemove = async (cartItemId) => {
-    await removeFromCart(cartItemId, showToast, t);
-    setCartItems((prev) => prev.filter((item) => item.id !== cartItemId));
-  };
+    await removeFromCart(cartItemId, showToast, t)
+    setCartItems((prev) => prev.filter((item) => item.id !== cartItemId))
+  }
+
+      const handleUpdateQuantity = async (productId, newQuantity) => {
+          await updateCartQuantity(productId, newQuantity, showToast, t);
+          setCartItems((prev) =>
+              prev.map((item) =>
+                  item.products.id === productId ? { ...item, quantity: newQuantity } : item
+              )
+          );
+      };
+
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.products.price * item.quantity,
+    0
+  )
 
   return (
-    <div className="drawer drawer-end z-50">
-      {/* Drawer toggle */}
-      <input id={inputId} type="checkbox" className="drawer-toggle" />
-
+    <>
       {/* زر فتح السلة */}
-      <div className="drawer-content">
-        <label
-          htmlFor={inputId}
-          className="flex items-center justify-center text-white bg-primary font-bold border border-primary py-2 rounded-xl px-3 hover:bg-transparent hover:text-primary transition-colors duration-300 cursor-pointer"
-        >
-          <ShoppingBasket />
-        </label>
-      </div>
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center justify-center
+    size-11 rounded-full
+    bg-primary text-white
+    shadow-xl
+    transition-all duration-300
+    hover:scale-110 hover:shadow-2xl
+    active:scale-95
+  "
+      >
+        {open ? <X className="w-6 h-6" /> : <ShoppingBasket className="w-5 h-5" />}
+      </button>
 
-      {/* drawer-side + overlay */}
-      <div className="drawer-side" style={{ scrollbarWidth: 'none' }}>
-        <label htmlFor={inputId} className="drawer-overlay"></label>
 
-        {/* صندوق السلة */}
-        <div className="drawer-content-box bg-white dark:bg-gray-900 dark:text-white shadow-lg h-auto rounded-b-xl pb-4 w-100">
-          <h2 className="font-bold text-xl mt-2 mb-4">{t("card")}</h2>
-          {loading && <Loading />}
-          {!loading && cartItems.length === 0 && (
-            <p className="font-bold text-center">{t("cart_is_empty")}</p>
-          )}
-          <ul className="menu">
-            {cartItems.map((item) => (
-              <CardItem
-                key={item.id}
-                product={item.products}
-                quantity={item.quantity}
-                onRemove={() => handleRemove(item.id)}
-              />
-            ))}
-          </ul>
-          {!loading && cartItems.length > 0 && (
-            <>
-            <h2 className="font-bold text-lg mt-4">
-              {t("total")}: $
-              {cartItems
-                .reduce(
-                  (total, item) =>
-                    total + item.products.price * item.quantity,
-                  0
-                )
-                .toFixed(2)}
-            </h2>
-            <button className="w-11/12 mt-4 mx-2 bg-primary text-white font-bold py-2 rounded-xl hover:bg-transparent hover:text-primary border border-primary transition-colors duration-300">
-              {t("checkout")}
-            </button>
-            </>
-          )}
+
+
+      <Dialog open={open} onClose={setOpen} className="relative z-50">
+        <DialogBackdrop
+          className="
+    fixed inset-0 bg-black/30 backdrop-blur-sm
+    transition-opacity duration-500
+    data-[closed]:opacity-0
+  "
+        />
+        <div className="fixed inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full">
+              <DialogPanel
+                className="
+    pointer-events-auto
+    w-screen max-w-md
+    transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
+    data-[closed]:translate-x-full"
+              >
+                <div className="flex h-full flex-col bg-white dark:bg-gray-900 shadow-xl pt-4">
+
+                  {/* Header */}
+                  <div className="flex items-center justify-between px-4 py-4">
+                    <X className="size-8 rounded-full bg-primary text-white dark:text-gray-800 shadow-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl" onClick={() => setOpen(false)} />
+                    <DialogTitle className="text-xl text-center font-black">
+                      {t('card')}
+                    </DialogTitle>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 overflow-y-auto px-4 py-4" style={{ scrollbarWidth: 'none' }}>
+                    {loading && (
+                    <ul className="space-y-4">
+                        {Array.from({ length: 3 }).map((_, idx) => (
+                            <SkeletonItem key={idx} />
+                        ))}
+                    </ul>
+                    )}
+                
+
+                    {!loading && cartItems.length === 0 && (
+                      <p className="font-bold text-center">
+                        {t('cart_is_empty')}
+                      </p>
+                    )}
+
+                    <ul className="space-y-4">
+                      {cartItems.map((item) => (
+                        <CardItem
+                          key={item.id}
+                          product={item.products}
+                          quantity={item.quantity}
+                          onRemove={() => handleRemove(item.id)}
+                          onUpdateQuantity={(newQuantity) => handleUpdateQuantity(item.products.id, newQuantity)}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Footer */}
+                  {!loading && cartItems.length > 0 && (
+                    <div className="px-4 py-4">
+                      <h2 className="font-bold text-lg mb-4">
+                        {t('total')}: ${totalPrice.toFixed(2)}
+                      </h2>
+
+                      <Link
+                        onClick={() => setOpen(false)}
+                        href="/cart"
+                        className="block w-full text-center mb-3 bg-primary text-white font-bold py-2 rounded-xl hover:bg-transparent hover:text-primary border border-primary transition"
+                      >
+                        {t('goToCart')}
+                      </Link>
+
+                      <Link
+                        onClick={() => setOpen(false)}
+                        href="/checkout"
+                        className="block w-full text-center bg-primary text-white font-bold py-2 rounded-xl hover:bg-transparent hover:text-primary border border-primary transition"
+                      >
+                        {t('checkout')}
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </DialogPanel>
+            </div>
+          </div>
         </div>
-      </div>
+      </Dialog>
+    </>
+  )
+}
 
-
-    </div>
-  );
-};
-
-export default SidebarCart;
+export default SidebarCart

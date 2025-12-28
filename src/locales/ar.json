@@ -40,5 +40,12 @@
   "Shop_Now": "تسوق الان",
   "discount": "خصم خاص",
   "pay_now": "اشتري الان",
-  "save_big": "ابداء بالتوفير"
+  "save_big": "ابداء بالتوفير",
+  "goToCart": "اذهب الي السلة",
+  "cart": "سلة المشتريات",
+  "continue_shopping": "الاستمرار بالتسوق",
+  "shipping_and_taxes_calculated_at_checkout": "الضرائب والرسوم تحسب عند الدفع",
+  "summary": "الملخص",
+  "Qty": "الكمية",
+  "Remove": "ازالة"
 }

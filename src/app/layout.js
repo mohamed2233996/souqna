@@ -30,7 +30,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" style={{scrollbarWidth:'none'}}>
       <Head>
         {/* Preload logos */}
         <link rel="preload" as="image" href="/logos/logo-en-white.png" />

@@ -41,5 +41,12 @@
   "Shop_Now": "SHOP NOW",
   "discount": "Special discount",
   "pay_now": "Buy now",
-  "save_big": "Start saving"
+  "save_big": "Start saving",
+  "goToCart": "Go to Cart",
+  "cart": "Shopping cart",
+  "continue_shopping": "continue shopping",
+  "shipping_and_taxes_calculated_at_checkout": "Taxes and fees are calculated at checkout",
+  "summary": "Summary",
+  "Qty": "Quantity",
+  "Remove": "Remove"
 }

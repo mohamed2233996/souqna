@@ -36,7 +36,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <nav className="bg-white/90 border-b border-gray-200 dark:bg-black/90 dark:border-gray-800 fixed top-0 z-[1000] w-full shadow-md backdrop-blur-md">
+        <nav className="bg-white/90 border-b border-gray-200 dark:bg-black/90 dark:border-gray-800 fixed top-0 z-[40] w-full shadow-md backdrop-blur-md">
             <div className={`text-center px-4 py-3 flex items-center justify-between`}>
 
                 {/*  اللوجو */}
@@ -83,7 +83,7 @@ const Navbar = () => {
                             {t('login')}
                         </button>
                     )}
-                    <SidebarCart id="drawer-cart-1" />
+                    <SidebarCart />
                 </div>
 
                 {/*  زر الهامبورجر (موبايل) */}
@@ -132,7 +132,7 @@ const Navbar = () => {
                                             {t('login')}
                                         </button>
                                     )}
-                                    <SidebarCart id="drawer-cart-1" />
+                                    <SidebarCart />
                                 </div>
                             </div>
                         )}
