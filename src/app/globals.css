@@ -32,6 +32,10 @@ html{
 
 body {
   font-family: 'Tajawal', sans-serif;
+  background-color: white;
+  color: black;
+  margin: 0;
+  padding: 0;
 }
 
 .dark{
