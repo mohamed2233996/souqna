@@ -8,6 +8,7 @@ import { addToCart } from '@/hooks/addToCart';
 import { useToast } from '@/context/ToastContext';
 import Loading from './Loading';
 import ProductSkeleton from './ProductSkeleton';
+import { useAuth } from '@/context/AuthContext';
 
 const Shop = () => {
     const { t } = useTranslation();
@@ -15,10 +16,13 @@ const Shop = () => {
     const [error, setError] = useState(null);
     const { showToast } = useToast();
     const [loading, setLoading] = useState(false);
+    const { user } = useAuth();
+
 
 
     const handleAddToCart = async (product) => {
-        await addToCart(product, showToast, t);
+
+        await addToCart(product, showToast, t, user);
     };
 
     useEffect(() => {

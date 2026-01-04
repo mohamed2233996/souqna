@@ -2,10 +2,8 @@
 import { supabase } from "../../lib/supabaseClient";
 import Swal from "sweetalert2";
 
-export async function addToCart(product, showToast, t) {
+export async function addToCart(product, showToast, t, user) {
     try {
-        // ✅ جلب المستخدم الحالي
-        const { data: { user } } = await supabase.auth.getUser();
 
         if (!user) {
             await Swal.fire({

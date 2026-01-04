@@ -6,9 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLogo } from "@/hooks/logoLoad";
 import { useTranslation } from "react-i18next";
-import Swal from "sweetalert2"; // <- استدعاء SweetAlert
+import Swal from "sweetalert2";
 
 export default function Register() {
+    const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,58 +22,52 @@ export default function Register() {
     const handleRegister = async (e) => {
         e.preventDefault();
 
+        if (!fullName.trim()) {
+            return Swal.fire({ icon: "error", title: t("Please_enter_your_full_name") || "Please enter your full name." });
+        }
+
         if (password !== confirmPassword) {
-            Swal.fire({
-                icon: "error",
-                title: t("passwords_not_match") || "Passwords do not match",
-            });
-            return;
+            return Swal.fire({ icon: "error", title: t("passwords_not_match") || "Passwords do not match" });
         }
 
         setLoading(true);
 
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                emailRedirectTo: `${window.location.origin}/auth/login`,
-            },
-        });
-
-        setLoading(false);
-
-        if (error) {
-            Swal.fire({
-                icon: "error",
-                title: error.message,
+        try {
+            // 1️⃣ تسجيل المستخدم في Supabase Auth
+            const { data, error: signUpError } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: { full_name: fullName },
+                    emailRedirectTo: `${window.location.origin}/auth/login` }
             });
-        } else {
+            if (signUpError) throw signUpError;
+
+            // 3️⃣ رسالة نجاح للمستخدم
             Swal.fire({
                 icon: "success",
-                title: t("check_email_to_confirm") || "Please check your email to confirm your account.",
-                confirmButtonText: "OK",
-            }).then(() => {
-                // يمكن توجيه المستخدم مباشرة لصفحة تسجيل الدخول بعد الضغط على OK
-                router.push("/auth/login");
-            });
+                title: t("registration_successful") || "Registration successful!",
+                text: t("you_can_now_log_in") || "You can now log in with your credentials.",
+                confirmButtonText: "OK"
+            }).then(() => router.push("/auth/login"));
 
             // تصفير الحقول
+            setFullName("");
             setEmail("");
             setPassword("");
             setConfirmPassword("");
+
+        } catch (err) {
+            Swal.fire({ icon: "error", title: err.message || "Unexpected error occurred" });
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="flex flex-col gap-20 items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
             <Link href="/" className="flex items-center">
-                <Image
-                    src={logoSrc}
-                    alt="Logo"
-                    width={150}
-                    height={150}
-                    priority
-                />
+                <Image src={logoSrc} alt="Logo" width={150} height={150} priority />
             </Link>
 
             <form
@@ -82,11 +77,21 @@ export default function Register() {
                 <h2 className="text-2xl font-bold mb-4 text-center">{t("register")}</h2>
 
                 <input
+                    type="text"
+                    placeholder={t("Full_Name")}
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full mb-3 p-2 border border-black dark:border-gray-300 rounded-xl outline-primary focus:border-primary bg-white dark:bg-gray-900 dark:text-white"
+                    required
+                />
+
+                <input
                     type="email"
                     placeholder={t("email")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-white dark:bg-gray-900 dark:text-white mb-3 p-2 border border-black dark:border-gray-300 outline-primary focus:border-primary rounded-xl"
+                    className="w-full mb-3 p-2 border border-black dark:border-gray-300 rounded-xl outline-primary focus:border-primary bg-white dark:bg-gray-900 dark:text-white"
+                    required
                 />
 
                 <input
@@ -94,7 +99,8 @@ export default function Register() {
                     placeholder={t("password")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-white dark:bg-gray-900 dark:text-white mb-3 p-2 border border-black dark:border-gray-300 outline-primary focus:border-primary rounded-xl"
+                    className="w-full mb-3 p-2 border border-black dark:border-gray-300 rounded-xl outline-primary focus:border-primary bg-white dark:bg-gray-900 dark:text-white"
+                    required
                 />
 
                 <input
@@ -102,20 +108,19 @@ export default function Register() {
                     placeholder={t("confirm_password")}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full bg-white dark:bg-gray-900 dark:text-white mb-4 p-2 border border-black dark:border-gray-300 outline-primary focus:border-primary rounded-xl"
+                    className="w-full mb-4 p-2 border border-black dark:border-gray-300 rounded-xl outline-primary focus:border-primary bg-white dark:bg-gray-900 dark:text-white"
+                    required
                 />
 
                 <button
                     type="submit"
                     disabled={loading}
-                    className={`bg-primary text-white font-black w-full p-2 rounded ${loading ? "opacity-60 cursor-not-allowed" : "hover:bg-primary/80"}`}
+                    className={`w-full p-2 rounded bg-primary text-white font-black ${loading ? "opacity-60 cursor-not-allowed" : "hover:bg-primary/80"}`}
                 >
                     {loading ? t("loading") || "Loading..." : t("create_account")}
                 </button>
 
-                <p className="text-sm font-bold text-center mt-6">
-                    {t("already_have_account")}
-                </p>
+                <p className="text-sm font-bold text-center mt-6">{t("already_have_account")}</p>
                 <p
                     className="text-sm text-center mt-2 cursor-pointer text-blue-500"
                     onClick={() => router.push("/auth/login")}

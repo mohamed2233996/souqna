@@ -47,5 +47,10 @@
   "shipping_and_taxes_calculated_at_checkout": "الضرائب والرسوم تحسب عند الدفع",
   "summary": "الملخص",
   "Qty": "الكمية",
-  "Remove": "ازالة"
+  "Remove": "ازالة",
+  "passwords_not_match": "كلمه المرور غير متطابقة",
+  "Please_enter_your_full_name": "الرجاء ادخل اسمك",
+  "Full_Name": "الاسم بالكامل",
+  "registration_successful": "تم التسجيل بنجاح",
+  "you_can_now_log_in": "يمكنك تسجيل الدخول الان"
 }

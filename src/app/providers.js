@@ -3,10 +3,13 @@
 
 import { ToastProvider } from '@/context/ToastContext';
 import '../i18n';
+import { AuthProvider } from '@/context/AuthContext';
 export default function Providers({ children }) {
   return (
-    <ToastProvider >
-      {children}
-    </ToastProvider >
+    <AuthProvider>
+      <ToastProvider >
+        {children}
+      </ToastProvider >
+    </AuthProvider>
   )
 }

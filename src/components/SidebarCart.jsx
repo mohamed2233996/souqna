@@ -15,14 +15,16 @@ import CardItem from './CardItem'
 import Loading from './Loading'
 import { updateCartQuantity } from '@/hooks/updateCartQuantity'
 import SkeletonItem from './SkeletonItem'
+import { useAuth } from '@/context/AuthContext'
 
 const SidebarCart = () => {
   const { t } = useTranslation()
   const { showToast } = useToast()
-
   const [open, setOpen] = useState(false)
   const [cartItems, setCartItems] = useState([])
   const [loading, setLoading] = useState(true)
+  const { user } = useAuth();
+
 
   const fetchCart = async () => {
     setLoading(true)
@@ -43,12 +45,12 @@ const SidebarCart = () => {
   }, [])
 
   const handleRemove = async (cartItemId) => {
-    await removeFromCart(cartItemId, showToast, t)
+    await removeFromCart(cartItemId, showToast, t, user)
     setCartItems((prev) => prev.filter((item) => item.id !== cartItemId))
   }
 
       const handleUpdateQuantity = async (productId, newQuantity) => {
-          await updateCartQuantity(productId, newQuantity, showToast, t);
+          await updateCartQuantity(productId, newQuantity, showToast, t, user);
           setCartItems((prev) =>
               prev.map((item) =>
                   item.products.id === productId ? { ...item, quantity: newQuantity } : item

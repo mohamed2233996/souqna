@@ -48,5 +48,10 @@
   "shipping_and_taxes_calculated_at_checkout": "Taxes and fees are calculated at checkout",
   "summary": "Summary",
   "Qty": "Quantity",
-  "Remove": "Remove"
+  "Remove": "Remove",
+  "passwords_not_match": "Password does not match",
+  "Please_enter_your_full_name": "Please enter your name",
+  "Full_Name": "Full name",
+  "registration_successful": "Registration completed successfully",
+  "you_can_now_log_in": "You can log in now"
 }

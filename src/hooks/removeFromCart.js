@@ -1,29 +1,40 @@
 'use client';
-import { supabase } from "../../lib/supabaseClient";
 
-export async function removeFromCart(cartItemId, showToast, t) {
+import { supabase } from '../../lib/supabaseClient';
+import Swal from 'sweetalert2';
+
+export async function removeFromCart(cartItemId, showToast, t, user) {
     try {
-        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            await Swal.fire({
+                icon: 'warning',
+                title: 'You must login first!',
+                confirmButtonText: 'Login',
+            }).then(() => {
+                window.location.href = '/auth/login';
+            });
 
-        const { data, error } = await supabase
-            .from("cart_items")
+            return { error: new Error('User not logged in') };
+        }
+
+        const { error } = await supabase
+            .from('cart_items')
             .delete()
-            .eq("id", cartItemId)
-            .select();
+            .eq('id', cartItemId)
+            .eq('user_id', user.id); // 🔐 أمان زيادة
 
         if (error) throw error;
 
-            showToast({
-                message: t("Product_removed"),
-                type: "removed",
-            });
+        showToast?.({
+            message: t('Product_removed'),
+            type: 'removed',
+        });
 
-        // 🔥 أهم إضافة — تحدّث السلة فورًا
-        window.dispatchEvent(new Event("cartUpdated"));
+        window.dispatchEvent(new Event('cartUpdated'));
 
-        return { data, error: null };
+        return { error: null };
     } catch (error) {
-        console.error("❌ Error in removeFromCart:", error.message);
-        return { data: null, error };
+        console.error('❌ Error in removeFromCart:', error.message);
+        return { error };
     }
 }
