@@ -53,5 +53,17 @@
   "Please_enter_your_full_name": "Please enter your name",
   "Full_Name": "Full name",
   "registration_successful": "Registration completed successfully",
-  "you_can_now_log_in": "You can log in now"
+  "you_can_now_log_in": "You can log in now",
+  "not_available": "Not available",
+  "phone": "Phone",
+  "address": "Address",
+  "joined_on": "Joining date",
+  "Email": "Email",
+  "no_items_in_cart": "There are no products in the cart",
+  "quantity": "Quantity",
+  "cart_items": "Shopping cart",
+  "Profile_not_found": "No profile available",
+  "price": "Total price",
+  "please_login_to_view_profile": "Log in to view your profile",
+  "Go_to_Login": "Go to the login page"
 }

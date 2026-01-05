@@ -37,6 +37,14 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="image" href="/logos/logo-en-dark.png" />
         <link rel="preload" as="image" href="/logos/logo-ar-white.png" />
         <link rel="preload" as="image" href="/logos/logo-ar-dark.png" />
+
+        <link
+  rel="preload"
+  href="https://res.cloudinary.com/dr6lvwubh/raw/upload/v1529908256/CompressaPRO-GX.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
       </Head>
       <body
         className={`${tajawal.variable} antialiased transition duration-300`}

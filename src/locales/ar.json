@@ -52,5 +52,17 @@
   "Please_enter_your_full_name": "الرجاء ادخل اسمك",
   "Full_Name": "الاسم بالكامل",
   "registration_successful": "تم التسجيل بنجاح",
-  "you_can_now_log_in": "يمكنك تسجيل الدخول الان"
+  "you_can_now_log_in": "يمكنك تسجيل الدخول الان",
+  "not_available": "غير متاح",
+  "phone": "الهاتف",
+  "address": "العنوان",
+  "joined_on": "تاريخ الانضمام",
+  "Email": "الايميل",
+  "no_items_in_cart": "لا يوجد منتجات في السلة",
+  "quantity": "الكمية",
+  "cart_items": "سلة المشتريات",
+  "Profile_not_found": "لا يتوفر ملف شخصي",
+  "price": "السعر الاجمالي",
+  "please_login_to_view_profile": "قم بتسجيل الدخول لعرض ملفك الشخصي",
+  "Go_to_Login": "الذهاب الي صفحة تسجيل الدخول"
 }

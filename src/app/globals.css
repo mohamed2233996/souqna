@@ -17,6 +17,15 @@
 
 }
 
+@font-face {
+  font-family: 'CompressaPRO-GX';
+  src: url('https://res.cloudinary.com/dr6lvwubh/raw/upload/v1529908256/CompressaPRO-GX.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap; /* مهم جدًا */
+}
+
+
 
 /* @media (prefers-color-scheme: dark) {
   :root {

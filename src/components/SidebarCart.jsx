@@ -49,14 +49,14 @@ const SidebarCart = () => {
     setCartItems((prev) => prev.filter((item) => item.id !== cartItemId))
   }
 
-      const handleUpdateQuantity = async (productId, newQuantity) => {
-          await updateCartQuantity(productId, newQuantity, showToast, t, user);
-          setCartItems((prev) =>
-              prev.map((item) =>
-                  item.products.id === productId ? { ...item, quantity: newQuantity } : item
-              )
-          );
-      };
+  const handleUpdateQuantity = async (productId, newQuantity) => {
+    await updateCartQuantity(productId, newQuantity, showToast, t, user);
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.products.id === productId ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
 
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.products.price * item.quantity,
@@ -111,34 +111,35 @@ const SidebarCart = () => {
                     </DialogTitle>
                   </div>
 
+                  {/* Empty State */}
+                  {!loading && cartItems.length === 0 && (
+                    <p className="font-bold text-center">
+                      {t('cart_is_empty')}
+                    </p>
+                  )}
+
                   {/* Content */}
                   <div className="flex-1 overflow-y-auto px-4 py-4" style={{ scrollbarWidth: 'none' }}>
-                    {loading && (
-                    <ul className="space-y-4">
-                        {Array.from({ length: 3 }).map((_, idx) => (
-                            <SkeletonItem key={idx} />
+                    {loading ? (
+                      <ul className="space-y-4">
+                        {Array.from({ length: cartItems.length }).map((_, idx) => (
+                          <SkeletonItem key={idx} />
                         ))}
-                    </ul>
-                    )}
-                
+                      </ul>
+                    ) : (
 
-                    {!loading && cartItems.length === 0 && (
-                      <p className="font-bold text-center">
-                        {t('cart_is_empty')}
-                      </p>
+                      <ul className="space-y-4">
+                        {cartItems.map((item) => (
+                          <CardItem
+                            key={item.id}
+                            product={item.products}
+                            quantity={item.quantity}
+                            onRemove={() => handleRemove(item.id)}
+                            onUpdateQuantity={(newQuantity) => handleUpdateQuantity(item.products.id, newQuantity)}
+                          />
+                        ))}
+                      </ul>
                     )}
-
-                    <ul className="space-y-4">
-                      {cartItems.map((item) => (
-                        <CardItem
-                          key={item.id}
-                          product={item.products}
-                          quantity={item.quantity}
-                          onRemove={() => handleRemove(item.id)}
-                          onUpdateQuantity={(newQuantity) => handleUpdateQuantity(item.products.id, newQuantity)}
-                        />
-                      ))}
-                    </ul>
                   </div>
 
                   {/* Footer */}

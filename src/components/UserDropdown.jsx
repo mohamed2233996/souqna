@@ -1,29 +1,36 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import { LogOut, Settings, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useUserProfile } from '@/hooks/useUserProfile';
+import Link from 'next/link';
 
 const UserDropdown = ({ user }) => {
     const { t } = useTranslation();
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
+    const [loadingMain, setLoadingMain] = useState(false);
+    const { profile, loading } = useUserProfile(user?.id)
+
 
     const handleLogout = async () => {
-        setLoading(true);
+        setLoadingMain(true);
         await supabase.auth.signOut();
-        setLoading(false);
+        setLoadingMain(false);
         router.push('/')
     };
+
+
 
     // استخدم صورة المستخدم من metadata أو صورة افتراضية
     const avatar =
         user?.user_metadata?.avatar_url ||
         "https://ui-avatars.com/api/?name=" + (user?.email || "U") + "&background=random";
 
-    const userName = user?.user_metadata?.name || user?.email?.split('@')[0] || "User";
+    const userName = profile?.full_name || user?.email?.split('@')[0] || "User";
+    const userEmail = profile?.email || user?.email || "No Email";
 
     return (
         <div className="dropdown dropdown-end">
@@ -43,10 +50,14 @@ const UserDropdown = ({ user }) => {
                     {userName}
                 </li>
 
+                <li className="text-center text-sm text-gray-500 dark:text-gray-400">
+                    {userEmail}
+                </li>
+
                 <li>
-                    <a className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <Link href={`/Profile/${user?.id}`} className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <User size={16} /> {t("Profile")}
-                    </a>
+                    </Link>
                 </li>
 
                 <li>
@@ -58,11 +69,11 @@ const UserDropdown = ({ user }) => {
                 <li>
                     <button
                         onClick={handleLogout}
-                        disabled={loading}
+                        disabled={loadingMain}
                         className="flex items-center gap-2 text-red-500 hover:bg-red-100 dark:hover:bg-red-800"
                     >
                         <LogOut size={16} />
-                        {loading ? 'Logging out...' : 'Logout'}
+                        {loadingMain ? 'Logging out...' : 'Logout'}
                     </button>
                 </li>
             </ul>
