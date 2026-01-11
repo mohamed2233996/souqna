@@ -57,38 +57,36 @@ const Landing = () => {
                         </div>
                     ) : (
                         <>
-                            <div className="relative h-[150px] md:h-[200px] lg:h-[250px] flex items-center justify-center">
-                                <TextPressure
-                                    text={t('welcome_to') || "Welcome to our site!"}
-                                    flex
-                                    alpha={false}
-                                    stroke={false}
-                                    width
-                                    weight
-                                    italic
-                                    textColor={textColor}
-                                    strokeColor="#ff0000"
-                                    minFontSize={36}
-                                    style={{ fontFamily: 'CompressaPRO-GX, Arial, sans-serif' }}
-                                />
+                        <div className='relative h-[100] max-h-[150] md:h-[150] md:max-h-[200] lg:h-[200] lg:max-h-[250]'>
+                            <TextPressure
+                                text={t('welcome_to') || "Welcome to our site!"}
+                                flex={false}
+                                alpha={false}
+                                stroke={false}
+                                width={false}
+                                weight={true}
+                                italic={true}
+                                textColor={textColor}
+                                strokeColor="#ff0000"
+                                minFontSize={35}
+                            />
                             </div>
-                            <div className="relative h-[150px] md:h-[200px] lg:h-[250px] flex items-center justify-center">
-                                <TextPressure
-                                    text={t('our_site') || "Welcome to our site!"}
-                                    flex
-                                    alpha={false}
-                                    stroke={false}
-                                    width
-                                    weight
-                                    italic
-                                    textColor={textColor}
-                                    strokeColor="#ff0000"
-                                    minFontSize={36}
-                                    style={{ fontFamily: 'CompressaPRO-GX, Arial, sans-serif' }}
-                                />
-                            </div>
-                        </>
+                    <div className='relative h-[100] max-h-[150] md:h-[150] md:max-h-[200] lg:h-[200] lg:max-h-[250]'>
+                            <TextPressure
+                                text={t('our_site') || "Welcome to our site!"}
+                                flex={false}
+                                alpha={false}
+                                stroke={false}
+                                width={false}
+                                weight={true}
+                                italic={true}
+                                textColor={textColor}
+                                strokeColor="#ff0000"
+                                minFontSize={35}
+                            />
 
+                        </div>
+                        </>
                     )}
                 <p className="text-center text-lg mt-8 md:mt-10 lg:mt-20 mb-8 md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
                     {t('landing_description') || "Discover a world of content tailored just for you. Explore articles, tutorials, and more."}

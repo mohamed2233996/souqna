@@ -65,5 +65,8 @@
   "Profile_not_found": "No profile available",
   "price": "Total price",
   "please_login_to_view_profile": "Log in to view your profile",
-  "Go_to_Login": "Go to the login page"
+  "Go_to_Login": "Go to the login page",
+  "profileToshop": "Want to keep shopping?",
+  "Go_to_Shop": "Continue shopping",
+  "View_Orders": "View orders"
 }

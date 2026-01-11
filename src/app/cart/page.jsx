@@ -11,13 +11,14 @@ import Loading from '@/components/Loading'
 import { updateCartQuantity } from '@/hooks/updateCartQuantity'
 import FirstOrder from '@/components/FirstOrder'
 import SkeletonItem from '@/components/SkeletonItem'
+import { useAuth } from '@/context/AuthContext'
 
 export default function page() {
     const { t } = useTranslation()
     const { showToast } = useToast()
-
     const [cartItems, setCartItems] = useState([])
     const [loading, setLoading] = useState(true)
+    const { user } = useAuth();
 
     const fetchCart = async () => {
         setLoading(true)
@@ -32,12 +33,12 @@ export default function page() {
     }, [])
 
     const handleRemove = async (cartItemId) => {
-        await removeFromCart(cartItemId, showToast, t)
+        await removeFromCart(cartItemId, showToast, t, user)
         setCartItems((prev) => prev.filter((item) => item.id !== cartItemId))
     }
 
     const handleUpdateQuantity = async (productId, newQuantity) => {
-        await updateCartQuantity(productId, newQuantity, showToast, t);
+        await updateCartQuantity(productId, newQuantity, showToast, t, user);
         setCartItems((prev) =>
             prev.map((item) =>
                 item.products.id === productId ? { ...item, quantity: newQuantity } : item

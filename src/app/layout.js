@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono,Tajawal} from "next/font/google";
+import { Geist, Geist_Mono, Tajawal } from "next/font/google";
 import "./globals.css";
 import '../i18n';
 import Providers from "./providers";
@@ -30,30 +30,22 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" style={{scrollbarWidth:'none'}}>
+    <html lang="en" style={{ scrollbarWidth: 'none' }}>
       <Head>
         {/* Preload logos */}
         <link rel="preload" as="image" href="/logos/logo-en-white.png" />
         <link rel="preload" as="image" href="/logos/logo-en-dark.png" />
         <link rel="preload" as="image" href="/logos/logo-ar-white.png" />
         <link rel="preload" as="image" href="/logos/logo-ar-dark.png" />
-
-        <link
-  rel="preload"
-  href="https://res.cloudinary.com/dr6lvwubh/raw/upload/v1529908256/CompressaPRO-GX.woff2"
-  as="font"
-  type="font/woff2"
-  crossorigin
-/>
       </Head>
       <body
         className={`${tajawal.variable} antialiased transition duration-300`}
       >
-          <Providers>
-            {/* <SidebarCart /> */}
-            <Navbar />
-            {children}
-          </Providers>
+        <Providers>
+          {/* <SidebarCart /> */}
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   );

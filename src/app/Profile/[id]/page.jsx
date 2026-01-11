@@ -100,7 +100,7 @@ export default function UserProfilePage() {
                                                 {item.products.title} - {t("quantity")}:
                                                 <span className='text-primary'> {item.quantity}</span>
                                             </p>
-                                            <p>
+                                            <p className="text-gray-700 dark:text-gray-300 min-w-[200px]">
                                                 {t("price")}:
                                                 <span className='text-primary font-bold'> {(item.products.price * item.quantity).toLocaleString(undefined, { style: 'currency', currency: 'USD' })}</span>
                                             </p>
@@ -118,6 +118,15 @@ export default function UserProfilePage() {
                             ) : (
                                 <p className="text-gray-600 dark:text-gray-400">{t("no_items_in_cart")}</p>
                             )}
+                        </div>
+                        <p className='text-center mt-6 font-bold'>{t("profileToshop")}</p>
+                        <div className='flex flex-col md:flex-row items-center justify-center gap-6 mt-4'>
+                            <button className="bg-primary text-white px-4 py-2 rounded-xl hover:bg-primary-dark transition">
+                                <a href="/shop">{t("Go_to_Shop")}</a>
+                            </button>
+                            <button className="bg-secondary text-white px-4 py-2 rounded-xl hover:bg-secondary-dark transition">
+                                <a href="/cart">{t("View_Orders")}</a>
+                            </button>
                         </div>
                     </div>
                 </>}
