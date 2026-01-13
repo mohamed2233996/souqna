@@ -80,7 +80,8 @@ export default function CategoryCarousel({ categories, onSelectCategory }) {
             <div
                 ref={carouselRef}
                 className="flex gap-4 overflow-x-auto px-4 py-4 scrollbar-none"
-                style={{ scrollBehavior: 'smooth',
+                style={{
+                    scrollBehavior: 'smooth',
                     scrollbarWidth: 'none', // For Firefox
                     msOverflowStyle: 'none' // For Internet Explorer and Edge
                 }}
@@ -89,25 +90,45 @@ export default function CategoryCarousel({ categories, onSelectCategory }) {
                     <div
                         key={cat.id}
                         onClick={() => handleSelect(cat)}
-                        className={`
-        relative flex-shrink-0 w-40 sm:w-48 md:w-52 h-40 sm:h-48 md:h-52 rounded-lg cursor-pointer transition-transform
-        ${selected === cat.name ? 'ring-4 ring-primary' : ''}
-        hover:scale-95
-            `}
+                        className="
+    flex-shrink-0 w-40 sm:w-48 md:w-52
+    cursor-pointer transition-transform
+    hover:scale-95
+  "
                     >
-                        {cat.image && (
-                            <img
-                                src={cat.image}
-                                alt={cat.name}
-                                className="w-full h-full object-cover rounded-lg brightness-90"
-                            />
-                        )}
+                        {/* الصورة فقط */}
+                        <div
+                            className={`
+      relative h-40 sm:h-48 md:h-52
+      rounded-lg overflow-hidden
+      transition
+      ${selected === cat.name ? 'ring-4 ring-primary ring-offset-2 ring-offset-white dark:ring-offset-dark' : ''}
+    `}
+                        >
+                            {cat.image && (
+                                <img
+                                    src={cat.image}
+                                    alt={cat.name}
+                                    className="w-full h-full object-cover brightness-90"
+                                />
+                            )}
 
-                        <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 hover:opacity-100 flex flex-col justify-center items-center text-white rounded-lg transition-opacity">
-                            <h3 className="font-black uppercase text-lg text-center">{cat.name}</h3>
-                            <span className="text-sm">{cat.products_count} {t('products')}</span>
+                            {/* الهوفر (زي ما هو) */}
+                            <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 hover:opacity-100 flex flex-col justify-center items-center text-white rounded-lg transition-opacity">
+                                <h3 className="font-black uppercase text-lg text-center">{cat.name}</h3>
+                                <span className="text-sm">
+                                    {cat.products_count} {t('products')}
+                                </span>
+                            </div>
                         </div>
+
+                        {/* الاسم تحت — من غير أي تأثير */}
+                        <p className="mt-2 text-center font-bold text-sm text-gray-800 dark:text-gray-200 uppercase">
+                            {cat.name}
+                        </p>
                     </div>
+
+
                 ))}
             </div>
 
