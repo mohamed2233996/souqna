@@ -45,7 +45,7 @@ const Landing = () => {
             }}>
             <div className='absolute inset-0 bg-white/40 dark:bg-black/40'></div>
 
-            <div className='relative z-10 pb-16 pt-8 sm:pt-20 lg:pt-32 bg-no-repeat bg-cover bg-center'>
+            <div className='relative z-10 py-8 sm:pt-16 lg:pt-28 bg-no-repeat bg-cover bg-center'>
                 <div className="container mx-auto px-4 flex flex-col justify-center">
                     <div className="mb-8 bg-gray-100 dark:bg-black border border-primary p-1 rounded-full shadow-2xl shadow-primary/50 w-fit mx-auto">
                         <p className="text-center text-[12px] md:text-lg text-primary px-4">
@@ -96,7 +96,7 @@ const Landing = () => {
                                 </div>
                             </>
                         )} */}
-                    <p className="text-center font-bold text-lg mt-8 md:mt-10 lg:mt-20 mb-8 md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+                    <p className="text-center font-bold text-lg mt-4 md:mt-6 lg:mt-18 mb-6 md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
                         {t('landing_description') || "Discover a world of content tailored just for you. Explore articles, tutorials, and more."}
                     </p>
                     <MainBtn
