@@ -11,7 +11,7 @@ export const useCategoriesWithCount = () => {
             setLoading(true)
 
             const { data, error } = await supabase
-                .from('categories_with_count')
+                .from('category_with_cont')
                 .select('*')
                 .order('products_count', { ascending: false })
 

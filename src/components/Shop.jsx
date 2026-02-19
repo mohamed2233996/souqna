@@ -69,10 +69,8 @@ const Shop = () => {
                                 title={product.title}
                                 price={product.price}
                                 image={product.image}
-                                rating={{
-                                    rate: product.rating__rate,
-                                    count: product.rating__count,
-                                }}
+                                rating__rate={product.rating__rate}
+                                rating__count={product.rating__count}
                                 onAddToCart={() => handleAddToCart(product)}
                             />
                         ))
