@@ -50,7 +50,7 @@ export async function POST(req) {
                     state: user?.state || 'Cairo',
                 },
                 currency: currency || 'EGP',
-                integration_id: parseInt(process.env.PAYMOB_INTEGRATION_ID),
+                integration_id: Number(process.env.PAYMOB_INTEGRATION_ID),
             }
         );
 
