@@ -1,43 +1,37 @@
 import axios from 'axios';
+import { NextResponse } from 'next/server';
 
-export default async function handler(req, res) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ message: 'Method not allowed' });
-    }
-
+export async function POST(req) {
     try {
-        const { amount, currency, items, user } = req.body;
+        const body = await req.json();
+        const { amount, currency, items, user } = body;
 
-        // Step 1: Authentication Request
+        // 1. Authentication Request
         const authResponse = await axios.post(
             'https://accept.paymob.com/api/auth/tokens',
-            {
-                api_key: process.env.PAYMOB_API_KEY,
-            }
+            { api_key: process.env.PAYMOB_API_KEY }
         );
-
         const authToken = authResponse.data.token;
 
-        // Step 2: Order Registration
+        // 2. Order Registration
         const orderResponse = await axios.post(
             'https://accept.paymob.com/api/ecommerce/orders',
             {
                 auth_token: authToken,
                 delivery_needed: 'false',
-                amount_cents: amount * 100, // المبلغ بالقروش
+                amount_cents: Math.round(amount * 100),
                 currency: currency || 'EGP',
                 items: items || [],
             }
         );
-
         const orderId = orderResponse.data.id;
 
-        // Step 3: Payment Key Request
+        // 3. Payment Key Request
         const paymentKeyResponse = await axios.post(
             'https://accept.paymob.com/api/acceptance/payment_keys',
             {
                 auth_token: authToken,
-                amount_cents: amount * 100,
+                amount_cents: Math.round(amount * 100),
                 expiration: 3600,
                 order_id: orderId,
                 billing_data: {
@@ -60,21 +54,17 @@ export default async function handler(req, res) {
             }
         );
 
-        const paymentToken = paymentKeyResponse.data.token;
-
-        // إرجاع Payment Token للفرونت إند
-        return res.status(200).json({
+        return NextResponse.json({
             success: true,
-            paymentToken,
+            paymentToken: paymentKeyResponse.data.token,
             orderId,
-        });
+        }, { status: 200 });
 
     } catch (error) {
-        console.error('Paymob Error:', error.response?.data || error.message);
-        return res.status(500).json({
+        console.error('Paymob Error:', error);
+        return NextResponse.json({
             success: false,
-            message: 'حدث خطأ في إنشاء عملية الدفع',
-            error: error.response?.data || error.message,
-        });
+            message: 'حدث خطأ في إنشاء عملية الدفع'
+        }, { status: 500 });
     }
 }

@@ -2,13 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from '@/context/AuthContext'; // افترضت إنك بتستخدم Context للمستخدم
-import { useTranslation } from 'react-i18next'; // لو بتستخدم الترجمة هنا
+import { useAuth } from '@/context/AuthContext'; 
+import { useTranslation } from 'react-i18next';
 import { getCartItems } from '@/hooks/getCartItems';
+import { useUserProfile } from '@/hooks/useUserProfile'; // استدعاء الهوك بتاعك (تأكد من المسار)
 
 export default function CheckoutPage() {
     const { t } = useTranslation();
     const { user } = useAuth();
+    
+    // استخدام الهوك لجلب بيانات المستخدم من جدول profiles
+    const { profile, loading: profileLoading } = useUserProfile(user?.id);
 
     const [loading, setLoading] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
@@ -19,12 +23,10 @@ export default function CheckoutPage() {
     useEffect(() => {
         const fetchCartData = async () => {
             setPageLoading(true);
-            const { data, error } = await getCartItems(); // هننادي الفانكشن بتاعتك
+            const { data, error } = await getCartItems();
 
             if (!error && data) {
                 setCartItems(data);
-
-                // حساب السعر الإجمالي (السعر × الكمية لكل منتج)
                 const total = data.reduce((acc, item) => acc + (item.price * item.quantity), 0);
                 setTotalPrice(total);
             }
@@ -40,13 +42,17 @@ export default function CheckoutPage() {
 
         setLoading(true);
 
-        // تجهيز المنتجات لصيغة Paymob من الداتا اللي راجعة من Supabase
         const formattedItems = cartItems.map(item => ({
-            name: item.products?.title || 'منتج من سوقنا', // بنجيب الاسم من جدول products
-            amount_cents: Math.round(item.price * 100), // السعر للقروش
-            description: item.products?.description?.substring(0, 50) || 'وصف المنتج', // Paymob بيحتاج الوصف ميكونش طويل أوي
+            name: item.products?.title || 'منتج من سوقنا',
+            amount_cents: Math.round(item.price * 100),
+            description: item.products?.description?.substring(0, 50) || 'وصف المنتج',
             quantity: item.quantity,
         }));
+
+        const fullName = profile?.full_name || '';
+        const nameParts = fullName.split(' ');
+        const firstName = nameParts[0] || user.user_metadata?.first_name || 'عميل';
+        const lastName = nameParts.slice(1).join(' ') || user.user_metadata?.last_name || 'سوقنا'; // باقي الاسم
 
         try {
             const response = await axios.post('/api/paymob/create-payment', {
@@ -54,17 +60,16 @@ export default function CheckoutPage() {
                 currency: 'EGP',
                 items: formattedItems,
                 user: {
-                    firstName: user.user_metadata?.first_name || 'عميل',
-                    lastName: user.user_metadata?.last_name || 'سوقنا',
-                    email: user.email,
-                    phone: user.phone || '01000000000', // لازم رقم تليفون لـ Paymob
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: profile?.email || user.email,
+                    phone: '01000000000', 
                     city: 'القاهرة',
                     country: 'EG',
                 },
             });
 
             if (response.data.success) {
-                // الانتقال لـ Iframe الدفع
                 window.location.href = `https://accept.paymob.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_PAYMOB_IFRAME_ID}?payment_token=${response.data.paymentToken}`;
             }
 
@@ -76,11 +81,13 @@ export default function CheckoutPage() {
         }
     };
 
-    if (pageLoading) {
-        return
-        <div className="container h-[100vh] mx-auto p-8 max-w-md flex flex-col justify-center">
-            <div className="text-center py-20 text-xl font-bold">{t("loading")}</div>
-        </div>;
+    // بنستنى كمان بيانات البروفايل تحمل عشان منبعتش داتا فاضية
+    if (pageLoading || profileLoading) {
+        return (
+            <div className="container h-[100vh] mx-auto p-8 max-w-md flex flex-col justify-center">
+                <div className="text-center py-20 text-xl font-bold">{t("loading")}</div>
+            </div>
+        );
     }
 
     return (
@@ -89,7 +96,6 @@ export default function CheckoutPage() {
 
             <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 border border-gray-100 dark:border-gray-700">
 
-                {/* تفاصيل سريعة للسلة */}
                 <div className="mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
                     <p className="text-gray-500 dark:text-gray-400 mb-2">{t('proud_cont')}: <span className="font-bold text-gray-800 dark:text-gray-200">{cartItems.length}</span></p>
                     <div className="flex justify-between items-center text-xl">
@@ -97,6 +103,13 @@ export default function CheckoutPage() {
                         <span className="font-extrabold text-primary">${totalPrice.toFixed(2)}</span>
                     </div>
                 </div>
+
+                {/* ضفنا رسالة ترحيب صغيرة بالعميل عشان يحس إن الداتا بتاعته مقروءة */}
+                {profile?.full_name && (
+                    <p className="text-center text-sm text-gray-500 mb-4">
+                        إتمام الدفع باسم: <span className="font-bold">{profile.full_name}</span>
+                    </p>
+                )}
 
                 <button
                     onClick={handlePayment}
@@ -107,7 +120,7 @@ export default function CheckoutPage() {
                         <>
                             <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
                             {t('processing')}
-                            </>
+                        </>
                     ) : (
                         t('pay_now')
                     )}
