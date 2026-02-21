@@ -74,5 +74,7 @@
   "souqna": "سوقنا",
   "done_order": "إتمام الطلب",
   "proud_cont": "عدد المنتجات",
-  "processing": "جاري التجهيز..."
+  "processing": "جاري التجهيز...",
+  "error loading products": "خطاء في تحميل المنتجات",
+  "no products found": "لا يتوفر منتجات الان"
 }

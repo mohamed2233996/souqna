@@ -52,9 +52,9 @@ const Navbar = () => {
 
                 {/*  اللينكات في النص */}
                 <div className="hidden sm:flex items-center gap-8">
-                    <Link href="/buy" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('buy')}</Link>
-                    <Link href="/contact" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('contact')}</Link>
-                    <Link href="/about" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('about')}</Link>
+                    <Link href="#" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('buy')}</Link>
+                    <Link href="#" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('contact')}</Link>
+                    <Link href="#" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('about')}</Link>
                 </div>
 
                 <div className="relative w-64 hidden md:block">

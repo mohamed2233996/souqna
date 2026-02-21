@@ -8,7 +8,7 @@ import Image from 'next/image'; // استيراد مكون الصورة
 export default function CategoryCarousel({ categories, onSelectCategory }) {
     const { t, i18n } = useTranslation();
     const isArabic = i18n.language === 'ar';
-    
+
     const [selected, setSelected] = useState(null);
     const carouselRef = useRef(null);
     const [allImage, setAllImage] = useState(null);
@@ -64,7 +64,7 @@ export default function CategoryCarousel({ categories, onSelectCategory }) {
         id: 'all',
         name: "All",
         nameAr: "الكل",
-        image: allImage || '', 
+        image: allImage || '',
         products_count: categories.reduce((sum, c) => sum + c.products_count, 0)
     };
 
@@ -104,8 +104,9 @@ export default function CategoryCarousel({ categories, onSelectCategory }) {
                                     fill
                                     sizes="(max-width: 768px) 160px, 200px"
                                     className="object-cover brightness-90"
-                                    // أيقونة "الكل" بتتغير كتير فبلاش نعملها priority
-                                    priority={cat.id === 'all'} 
+                                    priority={cat.id === 'all'}
+                                    // إذا كانت الصورة هي صورة "الكل" الناتجة عن الكانفاس، يفضل إضافة unoptimized
+                                    unoptimized={cat.id === 'all'}
                                 />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center text-gray-400">

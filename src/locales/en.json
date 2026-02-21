@@ -74,5 +74,7 @@
   "All": "everyone",
   "done_order": "Complete the order",
   "proud_cont": "Number of products",
-  "processing": "Preparing..."
+  "processing": "Preparing...",
+  "error loading products": "Error loading products",
+  "no products found": "There are no products available now"
 }
