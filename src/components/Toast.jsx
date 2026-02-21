@@ -41,7 +41,7 @@ const Toast = ({ message, duration = 3000, onClose, type }) => {
             {type === 'added' && <Flame size={60} />}
             {type === 'removed' && <Flame size={60} className="text-red-500" />}
             <span className="font-black text-center">{message}</span>
-            <a className="text-center underline" href="/chekout">
+            <a className="text-center underline" href="/checkout">
                 {t("go_to_chekout")}
             </a>
         </div>
