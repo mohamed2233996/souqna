@@ -11,6 +11,15 @@ const tajawal = Tajawal({
   display: 'swap',
 });
 
+export const metadata = {
+  title: "Souqna | سوقنا",
+  description: "Your one-stop shop for everything you need.",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-touch-icon.png",
+  },
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl" style={{ scrollbarWidth: 'none' }}>
