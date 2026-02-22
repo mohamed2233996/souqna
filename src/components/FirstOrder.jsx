@@ -12,9 +12,8 @@ const FirstOrder = () => {
             <Image 
                 src={firstOrderImage}
                 alt="First Order Promotion"
-                layout="fill"
-                objectFit="cover"
-                className=" blur-sm"
+                fill
+                className="object-cover blur-sm"
                 />
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white z-30">
                     <h2 className="text-4xl md:text-5xl font-bold mb-4">{t("firstOrder")}</h2>

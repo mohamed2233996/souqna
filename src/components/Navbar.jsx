@@ -8,68 +8,79 @@ import DarkSWitcher from './DarkSWitcher';
 import LanguageSwitcher from './LanguageSwitcher';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLogo } from '@/hooks/logoLoad';
+// تم الاستغناء عن useLogo لمنع الـ Infinite Re-renders
 import SidebarCart from './SidebarCart';
 import { supabase } from '../../lib/supabaseClient';
 import UserDropdown from './UserDropdown';
 
-
 const Navbar = () => {
     const router = useRouter();
     const { t, i18n } = useTranslation();
-    const logoSrc = useLogo();
+    const isArabic = i18n.language === 'ar';
     const [menuOpen, setMenuOpen] = useState(false);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        // نحصل على المستخدم الحالي أول مرة
         supabase.auth.getUser().then(({ data }) => setUser(data.user));
-
-        // نستمع لأي تغيير في حالة تسجيل الدخول
         const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
             setUser(session?.user || null);
         });
-
-        return () => {
-            listener.subscription.unsubscribe();
-        };
+        return () => listener.subscription.unsubscribe();
     }, []);
 
     return (
         <nav className="bg-white/90 border-b border-gray-200 dark:bg-black/90 dark:border-gray-800 fixed top-0 z-[40] w-full shadow-md backdrop-blur-md">
-            <div className={`text-center px-4 py-3 flex items-center justify-between`}>
+            <div className="container mx-auto px-4 py-3 flex items-center justify-between">
 
-                {/*  اللوجو */}
-                <Link href="/" className="flex items-center">
-                    <Image
-                        src={logoSrc}
-                        alt="Logo"
-                        width={55}
-                        height={55}
-                        priority
-                    />
+                {/* 1. اللوجو الذكي (بيغير نفسه بالـ CSS بدون JS) */}
+                <Link href="/" className="flex items-center" aria-label="Home">
+                    {/* لوجو العربي - يظهر فقط في العربي */}
+                    {isArabic ? (
+                        <>
+                            <Image 
+                                src="/logos/logo-ar-white.png" 
+                                alt="سوقنا" width={55} height={55} priority 
+                                className="dark:hidden object-contain"
+                            />
+                            <Image 
+                                src="/logos/logo-ar-dark.png" 
+                                alt="سوقنا" width={55} height={55} priority 
+                                className="hidden dark:block object-contain"
+                            />
+                        </>
+                    ) : (
+                        /* لوجو الإنجليزي - يظهر فقط في الإنجليزي */
+                        <>
+                            <Image 
+                                src="/logos/logo-en-white.png" 
+                                alt="Souqna" width={55} height={55} priority 
+                                className="dark:hidden object-contain"
+                            />
+                            <Image 
+                                src="/logos/logo-en-dark.png" 
+                                alt="Souqna" width={55} height={55} priority 
+                                className="hidden dark:block object-contain"
+                            />
+                        </>
+                    )}
                 </Link>
 
-                {/*  اللينكات في النص */}
                 <div className="hidden sm:flex items-center gap-8">
-                    <Link href="#" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('buy')}</Link>
-                    <Link href="#" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('contact')}</Link>
-                    <Link href="#" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('about')}</Link>
+                    <Link href="/shop" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('buy')}</Link>
+                    <Link href="/contact" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('contact')}</Link>
+                    <Link href="/about" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('about')}</Link>
                 </div>
 
+                {/* البحث */}
                 <div className="relative w-64 hidden md:block">
-
                     <input
                         type="text"
                         placeholder={t('search') || "Search..."}
-                        className="w-full rounded-xl border border-gray-200 dark:border-gray-600 
-                            bg-gray-50 dark:bg-gray-900 dark:text-white
-                            px-4 py-2 text-sm 
-                            shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="w-full rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 dark:text-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                     />
                 </div>
 
-                {/*  الدارك + اللغة في الآخر */}
+                {/* الأزرار الجانبية */}
                 <div className="hidden sm:flex items-center gap-4">
                     <DarkSWitcher />
                     <LanguageSwitcher />
@@ -78,7 +89,7 @@ const Navbar = () => {
                     ) : (
                         <button
                             onClick={() => router.push('/auth/login')}
-                            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
+                            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition active:scale-95"
                         >
                             {t('login')}
                         </button>
@@ -86,56 +97,52 @@ const Navbar = () => {
                     <SidebarCart />
                 </div>
 
-                {/*  زر الهامبورجر (موبايل) */}
+                {/* موبايل منيو */}
                 <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="sm:hidden text-gray-700 dark:text-gray-200"
+                    aria-label="Toggle Menu"
+                    className="sm:hidden text-gray-700 dark:text-gray-200 p-2"
                 >
                     {menuOpen ? <X size={28} /> : <Menu size={28} />}
                 </button>
             </div>
 
-
-            {/*  القائمة (موبايل) */}
+            {/* القائمة (موبايل) */}
             <AnimatePresence>
                 {menuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5, ease: 'easeInOut' }}
-                        className="sm:hidden flex flex-col items-center gap-4 py-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-black"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="sm:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-black overflow-hidden"
                     >
-                        {menuOpen && (
-                            <div className="sm:hidden flex flex-col items-center gap-4 py-4 border-gray-200 dark:border-gray-700 transition-all">
-                                {/* 🔍 البحث (موبايل) */}
-                                <div className="w-[90%]">
-                                    <input
-                                        type="text"
-                                        placeholder={t('search') || "Search..."}
-                                        className="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-100 dark:text-white dark:bg-gray-800 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                                    />
-                                </div>
-                                <Link href="/buy" className="w-full px-4 text-center text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('buy')}</Link>
-                                <Link href="/contact" className="w-full px-4 text-center text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('contact')}</Link>
-                                <Link href="/about" className="w-full px-4 text-center text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('about')}</Link>
-                                <div className="flex gap-4 mt-2">
-                                    <DarkSWitcher />
-                                    <LanguageSwitcher />
-                                    {user ? (
-                                        <UserDropdown user={user} />
-                                    ) : (
-                                        <button
-                                            onClick={() => router.push('/auth/login')}
-                                            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
-                                        >
-                                            {t('login')}
-                                        </button>
-                                    )}
-                                    <SidebarCart />
-                                </div>
+                        <div className="flex flex-col items-center gap-4 py-6">
+                            <div className="w-[90%] mb-2">
+                                <input
+                                    type="text"
+                                    placeholder={t('search')}
+                                    className="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-100 dark:text-white dark:bg-gray-800 px-4 py-2 text-sm"
+                                />
                             </div>
-                        )}
+                            <Link href="/shop" onClick={() => setMenuOpen(false)} className="text-lg font-medium dark:text-white">{t('buy')}</Link>
+                            <Link href="/contact" onClick={() => setMenuOpen(false)} className="text-lg font-medium dark:text-white">{t('contact')}</Link>
+                            <Link href="/about" onClick={() => setMenuOpen(false)} className="text-lg font-medium dark:text-white">{t('about')}</Link>
+                            
+                            <div className="flex items-center gap-6 mt-4 p-4 border-t dark:border-gray-800 w-full justify-center">
+                                <DarkSWitcher />
+                                <LanguageSwitcher />
+                                <SidebarCart />
+                            </div>
+                            
+                            {!user && (
+                                <button
+                                    onClick={() => router.push('/auth/login')}
+                                    className="w-[80%] py-3 bg-primary text-white rounded-xl font-bold"
+                                >
+                                    {t('login')}
+                                </button>
+                            )}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -17,6 +17,8 @@ const UserDropdown = ({ user }) => {
 
     const handleLogout = async () => {
         setLoadingMain(true);
+        localStorage.removeItem('wishlist'); // مسح المفضلة
+        localStorage.removeItem('cart'); // مسح السلة
         await supabase.auth.signOut();
         setLoadingMain(false);
         router.push('/')
@@ -46,11 +48,15 @@ const UserDropdown = ({ user }) => {
                 tabIndex={0}
                 className="menu menu-sm dropdown-content mt-3 z-[999] p-2 shadow bg-base-100 dark:bg-gray-800 dark:text-white rounded-box w-52"
             >
+                <div className="w-10 rounded-full overflow-hidden m-auto mb-2 ring ring-primary ring-offset-base-100 ring-offset-2">
+                    <img className='w-full' alt="user avatar" src={avatar} />
+                </div>
+
                 <li className="text-center font-semibold text-primary border-b border-gray-200 pb-2">
                     {userName}
                 </li>
 
-                <li className="text-center text-sm text-gray-500 dark:text-gray-400">
+                <li className="text-center text-sm text-gray-500 dark:text-gray-400 mt-2">
                     {userEmail}
                 </li>
 

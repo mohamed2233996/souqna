@@ -10,6 +10,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useProducts } from '@/hooks/useProducts';
 import { useCategoriesWithCount } from '@/hooks/useCategoriesWithCount';
 import CategoryCarousel from './CategoryCarousel';
+import Swal from 'sweetalert2';
 
 const Shop = () => {
     const { t } = useTranslation();
@@ -20,9 +21,27 @@ const Shop = () => {
     const { categories = [] } = useCategoriesWithCount();
     const [selectedCategory, setSelectedCategory] = useState(null);
 
-    const handleAddToCart = async (product) => {
-        await addToCart(product, showToast, t, user);
-    };
+const handleAddToCart = async (product) => {
+    // التحقق إذا كان المستخدم مسجل دخول أم لا قبل تنفيذ أي شيء
+    if (!user) {
+        await Swal.fire({
+            icon: "warning",
+            title: t("login_required_title", "يجب تسجيل الدخول أولاً!"),
+            text: t("login_required_text", "يرجى تسجيل الدخول لتتمكن من إضافة المنتجات إلى سلتك."),
+            confirmButtonText: t("login_button", "تسجيل الدخول"),
+            confirmButtonColor: "#fc8c06", // لون البرتقالي بتاع سوقنا
+            showCancelButton: true,
+            cancelButtonText: t("cancel", "إلغاء"),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/auth/login";
+            }
+        });
+        return;
+    }
+
+    await addToCart(product, showToast, t, user);
+};
 
     const filteredProducts = useMemo(() => {
         if (!products) return [];
@@ -69,6 +88,7 @@ const Shop = () => {
                         filteredProducts.length > 0 ? (
                             filteredProducts.map((product) => (
                                 <ProductBox
+                                    id={product.id}
                                     key={product.id}
                                     title={product.title}
                                     price={product.price}
