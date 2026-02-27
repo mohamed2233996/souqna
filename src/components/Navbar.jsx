@@ -66,7 +66,7 @@ const Navbar = () => {
                 </Link>
 
                 <div className="hidden sm:flex items-center gap-8">
-                    <Link href="/shop" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('buy')}</Link>
+                    <Link href="#shop" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('buy')}</Link>
                     <Link href="/contact" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('contact')}</Link>
                     <Link href="/about" className="text-gray-700 dark:text-gray-200 hover:text-primary transition">{t('about')}</Link>
                 </div>

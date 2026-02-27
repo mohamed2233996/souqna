@@ -96,5 +96,13 @@
   "cancel": "إلغاء",
   "remove_from_wishlist": "حذف من المفضلة",
   "related_products": "منتجات قد تعجبك أيضاً",
-  "added_successfully": "تمت الإضافة بنجاح!"
+  "added_successfully": "تمت الإضافة بنجاح!",
+  "contact_title": "تواصل معنا",
+  "contact_desc": "إحنا هنا عشان نساعدك! لو عندك أي استفسار، متترددش تبعتلنا.",
+  "contact_info": "معلومات التواصل",
+  "chat_now": "دردش معنا الآن",
+  "name": "الاسم",
+  "subject": "الموضوع",
+  "message": "رسالتك",
+  "send_message": "ارسال الرسالة"
 }

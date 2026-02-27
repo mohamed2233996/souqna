@@ -95,5 +95,13 @@
   "cancel": "cancel",
   "remove_from_wishlist": "Delete from favorites",
   "related_products": "Products you may also like",
-  "added_successfully": "Added successfully!"
+  "added_successfully": "Added successfully!",
+  "contact_title": "Contact us",
+  "contact_desc": "We are here to help you! \nIf you have any questions, do not hesitate to send us a message.",
+  "contact_info": "Contact information",
+  "chat_now": "Chat with us now",
+  "name": "the name",
+  "subject": "Topic",
+  "message": "Your message",
+  "send_message": "Send message"
 }
