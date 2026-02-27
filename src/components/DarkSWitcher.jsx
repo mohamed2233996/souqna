@@ -1,83 +1,72 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { createPortal } from 'react-dom'; // مهم جداً
+import { createPortal } from 'react-dom';
 
 const DarkSWitcher = () => {
-    const [theme, setTheme] = useState('light');
+    const [theme, setTheme] = useState(null); // نبدأ بـ null لمنع الرعشة في البداية
     const [isAnimating, setIsAnimating] = useState(false);
-    const [mounted, setMounted] = useState(false); // للتأكد إننا في الكلاينت
+    const [mounted, setMounted] = useState(false);
 
+    // التأكد من المود عند التحميل بدون أنيميشن
     useEffect(() => {
         setMounted(true);
-        const storedTheme = localStorage.getItem('theme') || 'light';
-        setTheme(storedTheme);
-        if (storedTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-        }
+        const stored = localStorage.getItem('theme') || 'light';
+        setTheme(stored);
+        if (stored === 'dark') document.documentElement.classList.add('dark');
     }, []);
 
     const toggleTheme = () => {
-        setIsAnimating(true);
+        if (isAnimating) return; // منع الضغط المتكرر اللي بيعمل لاج
         
-        setTimeout(() => {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                setTheme('light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                setTheme('dark');
-            }
-        }, 300);
+        setIsAnimating(true);
 
-        setTimeout(() => setIsAnimating(false), 800);
-    }
+        // استخدام requestAnimationFrame لضمان سلاسة التنفيذ
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                const isDark = document.documentElement.classList.contains('dark');
+                const nextTheme = isDark ? 'light' : 'dark';
 
-    // مكون الستارة اللي هيخرج بره الـ Navbar
-   // المكون اللي بيخرج بالـ Portal
-const Overlay = () => (
-    <AnimatePresence>
-        {isAnimating && (
-            <motion.div
-                // استخدمنا opacity و scale بدل clipPath لأنهم Hardware Accelerated
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                style={{ willChange: 'opacity' }} // بتعرف المتصفح يجهز كارت الشاشة
-                className="fixed inset-0 z-[999999] bg-primary flex flex-col items-center justify-center pointer-events-none"
-            >
-                {/* أنيميشن اللوجو خليه خفيف */}
-                <motion.div 
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.1 }}
-                    className="text-white text-6xl font-black italic tracking-tighter"
-                >
-                    SOUQNA
-                </motion.div>
-                
-                {/* لودر صغير يدور عشان اليوزر ميحسش إن الموقع وقف */}
-                <div className="mt-4 loading loading-ring loading-lg text-white"></div>
-            </motion.div>
-        )}
-    </AnimatePresence>
-);
+                if (isDark) {
+                    document.documentElement.classList.remove('dark');
+                } else {
+                    document.documentElement.classList.add('dark');
+                }
 
-    if (!mounted) return null;
+                localStorage.setItem('theme', nextTheme);
+                setTheme(nextTheme);
+            }, 300); // التوقيت ده مثالي مع الـ opacity
+        });
+
+        setTimeout(() => setIsAnimating(false), 900);
+    };
+
+    if (!mounted || theme === null) return <div className="h-7 w-7" />;
 
     return (
         <>
-            {/* إرسال الستارة لآخر الـ body */}
-            {createPortal(<Overlay />, document.body)}
+            {/* استخدام الـ Portal خارج الـ Label تماماً */}
+            {isAnimating && createPortal(
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="fixed inset-0 z-[999999] bg-primary flex flex-col items-center justify-center pointer-events-none"
+                    style={{ backfaceVisibility: 'hidden' }} // تحسين أداء كارت الشاشة
+                >
+                    <div className="text-white text-6xl font-black italic tracking-tighter">SOUQNA</div>
+                    <div className="mt-4 loading loading-ring loading-lg text-white"></div>
+                </motion.div>,
+                document.body
+            )}
 
             <label className="swap swap-rotate text-gray-800 dark:text-gray-200">
                 <input 
                     type="checkbox" 
                     onChange={toggleTheme} 
                     checked={theme === 'dark'}
+                    className="hidden" // إخفاء الـ input الأصلي تماماً
                 />
                 {/* Sun icon */}
                 <svg className="swap-on h-7 w-7 fill-current" viewBox="0 0 24 24">
@@ -90,6 +79,6 @@ const Overlay = () => (
             </label>
         </>
     );
-}
+};
 
 export default DarkSWitcher;

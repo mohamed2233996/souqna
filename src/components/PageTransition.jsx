@@ -10,7 +10,7 @@ export default function PageTransition({ children }) {
     // تأثير التنقل بين الصفحات
     useEffect(() => {
         setIsPending(true);
-        const timer = setTimeout(() => setIsPending(false), 500); // وقت الأنيميشن
+        const timer = setTimeout(() => setIsPending(false), 700); // وقت الأنيميشن
         return () => clearTimeout(timer);
     }, [pathname]);
 
@@ -24,12 +24,13 @@ export default function PageTransition({ children }) {
                         animate={{ x: '0%' }}
                         exit={{ x: '-100%' }}
                         transition={{ duration: 0.4, ease: "easeInOut" }}
-                        className="fixed inset-0 z-[9999] bg-primary flex items-center justify-center"
+                        className="fixed inset-0 z-[9999] bg-primary flex flex-col items-center justify-center"
                     >
                         {/* لوجو سوقنا في نص الشاشة وقت التحميل */}
                         <div className="text-white text-4xl font-black italic tracking-tighter">
                             SOUQNA
                         </div>
+                        <div className="mt-4 loading loading-ring loading-lg text-white"></div>
                     </motion.div>
                 )}
             </AnimatePresence>
