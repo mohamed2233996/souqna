@@ -5,23 +5,45 @@ import { useTranslation } from 'react-i18next';
 import firstOrderImage from '@/imges/firstOrder.jpg';
 
 const FirstOrder = () => {
-        const { t } = useTranslation();
-    
+    const { t } = useTranslation();
+
     return (
-        <div className='mt-20 after:absolute after:inset-0 after:bg-black after:opacity-50' style={{ width: '100%', height: 400, position: 'relative' }}>
-            <Image 
+        <div className='mt-20 relative w-full h-[400px] overflow-hidden group'>
+            {/* الخلفية مع تأثير Blur خفيف */}
+            <Image
                 src={firstOrderImage}
                 alt="First Order Promotion"
                 fill
-                className="object-cover blur-sm"
-                />
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white z-30">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">{t("firstOrder")}</h2>
-                    <p className="text-lg md:text-xl mb-12">{t("Use_code")} <span className="font-mono bg-white text-black px-2 py-1 rounded">FIRST10</span>{t("at_checkout")}.</p>
-                    <a href="#shop" className="inline-block bg-white text-black text-lg leading-normal font-black shadow-[0px_0px_10px_0px_#fc8c06,0px_0px_20px_0px_#fc8c06,0px_0px_30px_0px_#fc8c06,0px_0px_40px_0px_#fc8c06,0px_0px_50px_0px_#fc8c06,0px_0px_60px_0px_#fc8c06,0px_0px_70px_0px_#fc8c06] px-4 py-2 rounded-4xl hover:scale-105 transition">
-                        {t("Shop_Now")}
-                    </a>
-                </div>
+                priority
+                className="object-cover blur-[2px] scale-105 group-hover:scale-110 transition-transform duration-700"
+            />
+
+            {/* Overlay - التظليل عشان الكلام يوضح */}
+            <div className='absolute inset-0 bg-black/60 z-10'></div>
+
+            {/* المحتوى */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white z-20 px-4">
+                <h2 className="text-3xl md:text-5xl font-black mb-4 tracking-tight drop-shadow-lg">
+                    {t("firstOrder") || "خصم خاص لأول طلب!"}
+                </h2>
+
+                <p className="text-lg md:text-2xl mb-8 font-medium opacity-90">
+                    {t("Use_code") || "استخدم كود:"}
+                    <span className="mx-2 font-mono bg-primary text-white px-3 py-1 rounded-lg border-2 border-dashed border-white animate-pulse">
+                        FIRST10
+                    </span>
+                    {t("at_checkout") || "عند الدفع"}
+                </p>
+
+                <a
+                    href="#shop"
+                    className="bg-white text-black text-lg md:text-xl font-black px-10 py-4 rounded-full 
+                               hover:bg-primary hover:text-white transform hover:scale-110 transition-all duration-300
+                               shadow-[0_0_20px_rgba(252,140,6,0.6)] hover:shadow-[0_0_40px_rgba(252,140,6,0.8)]"
+                >
+                    {t("Shop_Now") || "تسوق الآن 🛒"}
+                </a>
+            </div>
         </div>
     );
 }

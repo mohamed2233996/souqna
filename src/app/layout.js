@@ -3,6 +3,8 @@ import "./globals.css";
 import '../i18n';
 import Providers from "./providers";
 import Navbar from "@/components/Navbar";
+import ScrollToTop from "@/components/ScrollToTop";
+import Footer from "@/components/Footer";
 
 const tajawal = Tajawal({
   variable: "--font-tajawal",
@@ -29,6 +31,8 @@ export default function RootLayout({ children }) {
         <Providers>
           <Navbar />
           {children}
+          <ScrollToTop />
+          <Footer />
         </Providers>
       </body>
     </html>
