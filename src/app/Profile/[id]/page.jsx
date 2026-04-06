@@ -122,7 +122,7 @@ export default function UserProfilePage() {
                         <p className='text-center mt-6 font-bold'>{t("profileToshop")}</p>
                         <div className='flex flex-col md:flex-row items-center justify-center gap-6 mt-4'>
                             <button className="bg-primary text-white px-4 py-2 rounded-xl hover:bg-primary-dark transition">
-                                <a href="/shop">{t("Go_to_Shop")}</a>
+                                <a href="/">{t("Go_to_Shop")}</a>
                             </button>
                             <button className="bg-secondary text-white px-4 py-2 rounded-xl hover:bg-secondary-dark transition">
                                 <a href="/cart">{t("View_Orders")}</a>

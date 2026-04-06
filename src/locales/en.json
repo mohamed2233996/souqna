@@ -139,5 +139,9 @@
   "best_quality": "Best Quality",
   "quality_desc": "We select our products carefully to ensure a premium experience.",
   "support_24": "24/7 Support",
-  "support_desc": "Our customer service team is here for you anytime."
+  "support_desc": "Our customer service team is here for you anytime.",
+  "your_favorites": "Your favorite products",
+  "view_all": "View all",
+  "based_on_favorites": "Based on your wish list",
+  "view_full_list": "Complete list"
 }

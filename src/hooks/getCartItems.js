@@ -20,8 +20,6 @@ export async function getCartItems(setToast, t) {
 
         if (error) throw error;
 
-        console.log("🛒 Full Cart Items:", data);
-
         return { data, error: null };
 
     } catch (error) {

@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabaseClient'
 import Shop from '@/components/Shop';
 import FirstOrder from '@/components/FirstOrder';
 import WhyChooseUs from '@/components/WhyChooseUs';
+import FavoriteProducts from '@/components/FavoriteProducts';
 
 export default async function Home() {
 
@@ -20,6 +21,7 @@ export default async function Home() {
   return (
     <div className="pt-20">
       <Landing  />
+      <FavoriteProducts />
       <Shop />
       <FirstOrder />
       <WhyChooseUs />
